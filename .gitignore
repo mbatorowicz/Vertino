@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+narzedzia/_*.py
+narzedzia/_*.txt
+
+# WinPro / duże binaria opcjonalnie (zostaw pdw/pdf w repo jeśli potrzebne)
+# plc/*.pdw
+
+# System
+Thumbs.db
+Desktop.ini
+*.tmp
+
+# Media — duże pliki (trzymaj lokalnie; GitHub limit 100 MB)
+media/*.mp4
+media/*.MP4
