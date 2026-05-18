@@ -3,37 +3,38 @@
 **Vertino — Stacja oczyszczania opakowań**  
 **Sterownik:** FATEK HB1-14MBJ25 | **HMI:** P5043NB | **Bezpieczeństwo:** Pilz PNOZ X7
 
-Jedna dokumentacja projektu (operator, serwis, PLC, techniczna, receptury).  
-**Nazewnictwo:** [KONWENCJE_NAZEWNICTWA.md](KONWENCJE_NAZEWNICTWA.md) (Vertino vs nazwy plików SKO-*).
+**[KONWENCJE_NAZEWNICTWA.md](KONWENCJE_NAZEWNICTWA.md)** — jak odróżnić stan w sterowniku od planu.  
+**[plc/STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md)** — co jest wgrane w PLC **dziś**.
 
 ---
 
-## Spis treści
-
-| Dokument | Odbiorca | Opis |
-|----------|----------|------|
-| [mapy_procesu.md](mapy_procesu.md) | Wszyscy | Mapa programu PLC, drzewo procesu, przepływ operatora |
-| [maszyna.md](maszyna.md) | Wszyscy | Przeznaczenie, cykl 360°, B4, parametry R |
-| [operator.md](operator.md) | Operator | Uruchomienie, HMI, alarmy, dziennik |
-| [serwis.md](serwis.md) | Serwis | Diagnostyka, kalibracja, konserwacja |
-| [techniczna.md](techniczna.md) | Producent / integrator | Hardware, Modbus, HMI |
-| [receptury.md](receptury.md) | Operator / serwis | 7 profili średnic → R1400 |
-| [srednice_slokow.txt](srednice_slokow.txt) | — | Wymiary słoików [mm] |
-
-### Program PLC — [plc/](plc/)
+## Dokumenty
 
 | Dokument | Opis |
 |----------|------|
-| [01_odszyfrowanie_starego_programu.md](plc/01_odszyfrowanie_starego_programu.md) | **Rozszyfrowanie** starego programu — wszystkie 78 sieci |
-| [02_program_nowy_sieci.md](plc/02_program_nowy_sieci.md) | Szkic nowego programu — 33 sieci |
-| [03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md) | **Program docelowy Vertino** — 35 sieci |
-| [program.md](program.md) | Architektura, porównanie wersji |
-| [mapowanie.md](mapowanie.md) | X/Y, M, R, D, C, T |
-| [lista_sieci.md](lista_sieci.md) | Spis sieci |
+| [mapy_procesu.md](mapy_procesu.md) | Diagramy (plan PLC + proces + operator) |
+| [maszyna.md](maszyna.md) | Urządzenie, cykl, B4 |
+| [operator.md](operator.md) | Instrukcja operatora |
+| [serwis.md](serwis.md) | Serwis |
+| [techniczna.md](techniczna.md) | Hardware, HMI |
+| [receptury.md](receptury.md) | Profile średnic |
+| [srednice_slokow.txt](srednice_slokow.txt) | Wymiary [mm] |
+
+### PLC — [plc/](plc/)
+
+| Dokument | Stan |
+|----------|------|
+| **[STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md)** | **W sterowniku (78 sieci)** |
+| [program.md](plc/program.md) | Skrócony indeks |
+| [mapowanie.md](plc/mapowanie.md) | I/O, rejestry |
+| [lista_sieci.md](plc/lista_sieci.md) | Spis N0000–N0077 |
+| [sieci/](plc/sieci/) | Opis każdej sieci (eksport PDF) |
 | [indeks_krzyzowy.md](plc/indeks_krzyzowy.md) | Adres → sieć |
-| [audyt.md](audyt.md) | Stan programu, rekomendacje A0/A1/P1 |
-| [mnemotechniki.txt](plc/mnemotechniki.txt) | Listing WinProLadder |
-| [sieci/](plc/sieci/) | Opis każdej sieci |
+| [mnemotechniki.txt](plc/mnemotechniki.txt) | Listing |
+| [audyt.md](plc/audyt.md) | Luki, rekomendacje |
+| [wdrozenie_drabinka_A0_A1.md](plc/wdrozenie_drabinka_A0_A1.md) | Patch w 78 sieciach (opcja) |
+| [01_analiza_programu_produkcyjnego.md](plc/01_analiza_programu_produkcyjnego.md) | Wymagania vs produkcja |
+| **[03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md)** | **Plan — 35 sieci (nie w PLC)** |
 
 ---
 
@@ -41,17 +42,11 @@ Jedna dokumentacja projektu (operator, serwis, PLC, techniczna, receptury).
 
 | Ścieżka | Opis |
 |---------|------|
-| [../plc/SKO-Program.pdf](../plc/SKO-Program.pdf) | Eksport WinProLadder (79 str.) |
-| [../plc/SKO-Program.pdw](../plc/SKO-Program.pdw) | Projekt sterownika |
+| [../plc/SKO-Program.pdw](../plc/SKO-Program.pdw) | Program w sterowniku |
+| [../plc/SKO-Program.pdf](../plc/SKO-Program.pdf) | Eksport PDF |
 | [../plc/export/comments.txt](../plc/export/comments.txt) | Komentarze symboli |
-| [../schemat_elektryczny/](../schemat_elektryczny/) | Schemat QET |
-| [../hmi/](../hmi/) | Projekt panelu P5043NB |
 
-## Regeneracja opisów sieci z PDF
-
-```bash
-python narzedzia/generuj_dokumentacje.py
-```
+Regeneracja opisów sieci z PDF: `python narzedzia/generuj_dokumentacje.py`
 
 ---
 

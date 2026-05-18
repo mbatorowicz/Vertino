@@ -18,15 +18,19 @@
 | X3 | SENSOR_B3 | Czujnik HOME 0° |
 | X4 | SENSOR_B4 | Kontrola przepływu (zewnętrzny transporter) |
 
-**B4 (X4):** czujnik na **wyjściu** maszyny — linia odbiorcza zajęta (zator). R1507 = 1 gdy X4 = ON.
+**B4 (X4):** czujnik na **wyjściu** — linia odbiorcza zajęta. **R1507** = 1 gdy X4 = ON.
 
-| Sieć | Zachowanie B4 |
-|------|----------------|
-| **019** Start transportu | Kontakt **NC X4** — przepychanie startuje tylko przy B4 = OFF |
-| **025** Start obrotu | **Bez X4** — obrót modułu niezależny od zatoru |
-| **037–042** | Status R1507, M507, licznik D204 |
+### B4 w programie **produkcyjnym** (stan w sterowniku)
 
-**Wymaganie procesowe:** przy zatorze w trakcie zliczania — stop przepychania, **C1 bez resetu**, wznowienie po B4 = OFF. W obecnym programie do dopisania w sieciach N0020–N0023 (patrz [plc/program.md](program.md)).
+| Sieć | Zachowanie |
+|------|------------|
+| N0019 | Start cyklu M21 — tylko przy `/X4` i `/M1050` |
+| N0021–N0023 | Zliczanie i koniec partii — **bez** warunku X4 w drabince |
+| N0030 | Start obrotu — **bez** X4 |
+| N0041–N0046 | R1507, M507, D204 |
+
+**Wymaganie procesu** (pauza przy zatorze, C1 bez resetu): nie w pełni zrealizowane — [audyt.md](audyt.md) A0.  
+**Plan naprawy:** [03_program_vertino_sieci.md](03_program_vertino_sieci.md) N0008, N0017–N0018 lub [wdrozenie_drabinka_A0_A1.md](wdrozenie_drabinka_A0_A1.md).
 
 ## Wyjścia cyfrowe (24 V DC, NPN)
 
@@ -157,7 +161,7 @@ Czas [s] = baza × PV.
 | R1403 | Impulsy na 90° | 12400–12600 | 12500 | Walidacja N0039–N0040 |
 | R1410 | Czas stabilizacji [ms] | 50–1000 | 200 | Timer T6 |
 | R1411 | Pauza po obrocie [ms] | 50–500 | 100 | Timer T8 |
-| R1412 | Potwierdzenie zatoru B4 [ms] | 100–3000 | 500 | Timer T52 → M507 |
+| R1412 | Potwierdzenie zatoru B4 [ms] | 100–3000 | 500 | Tylko program **docelowy** 03 (T52→M507) |
 
 Poza zakresem → M503.
 
@@ -212,84 +216,9 @@ Poza zakresem → M503.
 
 ---
 
-## Lista sieci programu
+## Lista sieci
 
-Kolejność i nazwy z eksportu programu (Ladder Resource.ldr).
-
-| Nr | Nazwa sieci |
-|----|-------------|
-| N0002 | 001 | Reset błędów z HMI |
-| 002 | System gotowy — warunek SET |
-| 003 | System gotowy — warunek RESET |
-| 004 | Reset wszystkich błędów |
-| 005 | START pracy automatycznej |
-| 006 | STOP pracy automatycznej |
-| 007 | HOME przy starcie |
-| 008 | HOME ręczny z HMI |
-| 009 | Start procedury HOME |
-| 010 | Koniec HOME na czujniku B3 |
-| 011 | Timeout HOME |
-| 012 | Parametry FUN141 — Transport |
-| 013 | Parametry FUN141 — Obrót |
-| 014 | FUN140 Transport |
-| 015 | FUN140 Obrót |
-| 016 | Status READY Transport |
-| 017 | Status READY Rotation |
-| 018 | Start cyklu |
-| 019 | Start transportu |
-| 020 | Liczenie opakowań na B1 |
-| 021 | Koniec transportu |
-| 022 | Kontrola pozycji wejścia — błąd |
-| 023 | Kontrola pozycji wyjścia — błąd |
-| 024 | Pozycja OK — można obrócić |
-| 025 | Start obrotu |
-| 026 | Koniec obrotu |
-| 027 | Timeout transportu |
-| 028 | Timeout obrotu |
-| 029 | Walidacja ilości opakowań — minimum |
-| 030 | Walidacja ilości opakowań — maksimum |
-| 031 | Walidacja prędkości transportu — minimum |
-| 032 | Walidacja prędkości transportu — maksimum |
-| 033 | Walidacja prędkości obrotu — minimum |
-| 034 | Walidacja prędkości obrotu — maksimum |
-| 035 | Walidacja impulsów — minimum |
-| 036 | Walidacja impulsów — maksimum |
-| 037 | Status zewnętrznego transportera — zajęty |
-| 038 | Status zewnętrznego transportera — wolny |
-| 039 | Flaga statusu dla HMI — SET |
-| 040 | Flaga statusu dla HMI — RESET |
-| 041 | Detekcja zbocza B4 |
-| 042 | Reset detekcji zbocza |
-| 043 | Aktualizacja pozycji — HOME |
-| 044 | Aktualizacja pozycji — obrót +90° |
-| 045 | Reset pozycji na 0° po 360° |
-| 046 | Start pomiaru czasu cyklu |
-| 047 | Zapis czasu cyklu |
-| 048 | Warunki trybu ręcznego — SET |
-| 049 | Warunki trybu ręcznego — RESET |
-| 050 | Transport FWD — START |
-| 051 | Transport FWD — STOP |
-| 052 | Transport REV — START |
-| 053 | Transport REV — STOP |
-| 054 | Obrót CW — START |
-| 055 | Obrót CW — STOP |
-| 056 | Obrót CCW — START |
-| 057 | Obrót CCW — STOP |
-| 058 | Obrót +90° |
-| 059 | Obrót -90° |
-| 060 | Przedmuch ręczny ON |
-| 061 | Przedmuch ręczny OFF |
-| 062 | Test czujnika B4 — symulacja ON |
-| 063 | Test czujnika B4 — symulacja OFF |
-| 064 | Przedmuch AUTO |
-| 065 | Przedmuch ręczny |
-| 066 | Transport FWD ręczny |
-| 067 | Transport REV ręczny |
-| 068 | Obrót CW ręczny |
-| 069 | Obrót CCW ręczny |
-| 070 | Obrót +90° ręczny |
-| 071 | Obrót -90° ręczny |
-| 072 | HOME procedure |
+Pełna lista N0000–N0077: **[lista_sieci.md](lista_sieci.md)** · szczegóły: **[sieci/](sieci/)**
 
 ---
 

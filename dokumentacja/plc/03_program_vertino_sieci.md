@@ -5,7 +5,9 @@
 **Sieci:** **35** (N0000–N0034) — bez duplikatów logiki  
 **Mapowanie I/O:** bez zmian ([mapowanie.md](mapowanie.md))
 
-Zastępuje rozproszony program 78 sieci. Jedna definicja B4 → **M507**, jedna maszyna stanów **M21–M25**, jedna walidacja parametrów.
+**Status:** dokument **planu** — po wdrożeniu zastąpi 78 sieci w `SKO-Program.pdw`. Dopóki nie wgrany: prawda o maszynie = [STAN_FAKTYCZNY.md](STAN_FAKTYCZNY.md).
+
+Jedna definicja B4 → **M507**, jedna maszyna stanów **M21–M25**, jedna walidacja parametrów.
 
 ---
 
@@ -463,6 +465,6 @@ M70 ───────► M21 ──► FUN140 transport ──► M22 ──
 4. Dodać **R1412** na HMI + wpis w `comments.txt`.
 5. Pobrać do sterownika → test T1–T6.
 
-**Powiązane:** [02_program_nowy_sieci.md](02_program_nowy_sieci.md) (poprzedni szkic), [audyt.md](audyt.md), [program.md](program.md).
+**Powiązane:** [STAN_FAKTYCZNY.md](STAN_FAKTYCZNY.md), [audyt.md](audyt.md), [program.md](program.md).
 
 **© CNC Solutions — Vertino**

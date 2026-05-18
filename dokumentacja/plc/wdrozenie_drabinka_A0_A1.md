@@ -1,10 +1,11 @@
 # Wdrożenie w WinProLadder — A0 (B4) + A1 (przedmuch 180°) — Vertino
 
-**Sterownik:** FATEK HB1-14MBJ25 (bez zmian)  
-**Projekt (nazwa pliku historyczna):** [SKO-Program.pdw](../../plc/SKO-Program.pdw)  
-**Jednostka:** `Main_unit1`
+**Dotyczy:** programu **produkcyjnego** (78 sieci) w [SKO-Program.pdw](../../plc/SKO-Program.pdw) — **nie** programu docelowego 03.
 
-Zmiany realizują [audyt.md](audyt.md) (priorytet A0, A1). Po edycji: zapisz projekt → pobierz do PLC (F9) → test na maszynie.
+**Alternatywa:** wdrożyć całość z [03_program_vertino_sieci.md](03_program_vertino_sieci.md) zamiast patchy poniżej.
+
+**Sterownik:** FATEK HB1-14MBJ25 | **Jednostka:** `Main_unit1`  
+Zmiany z [audyt.md](audyt.md) (A0, A1). Po edycji: zapis → F9 do PLC → test.
 
 ---
 

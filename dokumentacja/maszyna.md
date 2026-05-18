@@ -58,7 +58,7 @@ Stacja oczyszcza opakowania (słoiki) przed napełnianiem: obrót do pozycji **1
 M70 → M21 → M22 → M23 → M233 → M24 → M25 → M21 …
 ```
 
-Szczegóły programu: [plc/program.md](program.md).
+PLC w sterowniku: [plc/STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md) · plan programu: [plc/03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md).
 
 ### Parametry procesu (HMI)
 

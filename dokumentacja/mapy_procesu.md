@@ -1,8 +1,20 @@
 # Vertino — mapy programu, procesu i operatora
 
-**Maszyna:** Vertino — Stacja oczyszczania opakowań  
-**Program docelowy:** [plc/03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md) (35 sieci N0000–N0034)  
-**Sterownik:** FATEK HB1-14MBJ25 | **HMI:** P5043NB | **Bezpieczeństwo:** Pilz PNOZ X7
+**Maszyna:** Vertino — Stacja oczyszczania opakowań
+
+| Sekcja | Opisuje |
+|--------|---------|
+| **§1 Mapa programu (drzewo N0000–N0034)** | Program **docelowy** — **nie** w sterowniku |
+| **§2–3 Proces i operator** | Proces na maszynie (zgodny z oboma wersjami tam, gdzie nie zaznaczono inaczej) |
+
+**W sterowniku dziś:** 78 sieci — **[plc/STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md)**  
+**Plan PLC:** [plc/03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md)
+
+---
+
+## §1 — Program docelowy (plan, 35 sieci)
+
+> Nie mylić z programem w `SKO-Program.pdw` (78 sieci).
 
 ---
 

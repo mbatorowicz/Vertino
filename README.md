@@ -30,7 +30,7 @@ Vertino/                    # folder projektu (nazwa katalogu może być history
 
 Mapowanie I/O: [dokumentacja/plc/mapowanie.md](dokumentacja/plc/mapowanie.md)
 
-**PLC:** [program produkcyjny 78 sieci](dokumentacja/plc/01_odszyfrowanie_starego_programu.md) · **[program docelowy 35 sieci](dokumentacja/plc/03_program_vertino_sieci.md)** · [mapy](dokumentacja/mapy_procesu.md)
+**PLC:** [stan w sterowniku](dokumentacja/plc/STAN_FAKTYCZNY.md) · [plan 35 sieci](dokumentacja/plc/03_program_vertino_sieci.md) · [mapy](dokumentacja/mapy_procesu.md)
 
 ## Wejścia PLC (skrót)
 

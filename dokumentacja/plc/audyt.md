@@ -1,8 +1,8 @@
-# Audyt programu PLC — Vertino
+# Audyt programu PLC — Vertino (program w sterowniku)
 
 **Data:** 2026-05  
 **Sterownik:** FATEK HB1-14MBJ25  
-**Program:** 78 sieci (N0000–N0077) w `Main_unit1`  
+**Program w PLC:** 78 sieci (N0000–N0077) — [STAN_FAKTYCZNY.md](STAN_FAKTYCZNY.md)  
 **Źródło stanu:** eksport [SKO-Program.pdf](../../plc/SKO-Program.pdf)
 
 ---
