@@ -28,10 +28,14 @@ Zbyt długie zasłonięcie B3 — maszyna sama czeka (lampka PAUZA B3). Nie jest
 Usuń przyczynę → **RESET** → ewentualnie **HOME** → **START**.
 Tabela alarmów: [instrukcja_obslugi.md](instrukcja_obslugi.md) §9.
 
-## Przezbrajanie
+## Przezbrajanie (BS6)
 
-Kluczyk **SERWIS**, ekran SERWIS, tryb przezbrajania, powolny obrót +90°.
+Klucz **PRZEBRAJANIE** (X4) → ekran BS6: M343/M344 (±90°, R11), jog M340.
 Procedura: [instrukcja_obslugi.md](instrukcja_obslugi.md) §8.
+
+## Serwis (BS3)
+
+Wejście na ekran SERWIS → M320: jog, M342 (R14). Osłona zamknięta.
 
 ---
 

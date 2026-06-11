@@ -9,7 +9,7 @@ Zakres:
 - **R1** — tryb serwisowy (ruchy ręczne z HMI)
 - **R2** — nastawy prędkości i przyspieszenia serwo z HMI
 - **R3** — liczniki statystyczne i czas cyklu
-- **R4** — tryb przezbrajania (powolny obrót 90° bez osłony)
+- **R4** — kluczyk przezbrajania (X4), ekran BS6, trzy prędkości obrotu
 - **HMI** — nowe ekrany i obiekty
 
 ---
@@ -20,13 +20,13 @@ Zakres:
 |-------|---------|----------|
 | M311 | Zeruj licznik partii C0 | HMI → PLC |
 | M312 | Zeruj statystyki | HMI → PLC |
-| M320 | Tryb serwisowy (przełącznik) | HMI → PLC |
-| M340 | Serwis: transport jog | HMI → PLC |
-| M341 | Serwis: przedmuch ręczny | HMI → PLC |
-| M342 | Serwis: obrót +90° (zbocze, prędkość produkcyjna R1403) | HMI → PLC |
-| M323 | Tryb przezbrajania (przełącznik) | HMI → PLC |
-| M343 | Przezbrajanie: obrót +90° (zbocze, **utrzymany** — dead-man) | HMI → PLC |
-| M330 | Przezbrajanie aktywne (wewnętrzny: M320·M323·S1) | wewnętrzny |
+| M320 | Tryb serwisowy — **włączany przy wejściu na ekran BS3** (HMI) | HMI ↔ PLC |
+| M340 | Transport jog (przytrzymany) | HMI → PLC |
+| M341 | Przedmuch ręczny | HMI → PLC |
+| M342 | Obrót serwis +90° (BS3, R14) | HMI → PLC |
+| M343 | Obrót przezbrajania +90° „góra/lewo" (BS6, R11) | HMI → PLC |
+| M344 | Obrót przezbrajania −90° „dół/prawo" (BS6, R11) | HMI → PLC |
+| M330 | Przezbrajanie aktywne (= **X4**, styk NO kluczyka) | hardware → PLC |
 | M536 | Przezbrajanie: ruch w toku (sygnalizacja HMI) | PLC → HMI |
 | M530 | Alarm: timeout bazowania | PLC → HMI (latch) |
 | M531 | Alarm: timeout obrotu | PLC → HMI (latch) |
@@ -37,9 +37,11 @@ Zakres:
 | M539 | Nastawy poprawne (warunek startu) | wewnętrzny |
 | R9 | Timeout bazowania [× 0.1 s] (zalecane 300 = 30 s) | HMI → PLC |
 | R10 | Timeout obrotu [× 0.1 s] (zalecane 100 = 10 s) | HMI → PLC |
-| R11 | Prędkość obrotu przezbrajania (32-bit) — **bardzo niska** | HMI → PLC |
-| R12 | Przyspieszenie obrotu przezbrajania (acc/dec, kopiowane tymczasowo do R1211) | HMI → PLC |
-| R13 | Timeout obrotu przezbrajania [× 0.1 s] (zalecane 600 = 60 s) | HMI → PLC |
+| X4 | KEY_PRZEBRAJ — styk **NO** kluczyka (ON = tryb **przezbrajania**) | hardware → PLC |
+| R11 | Prędkość obrotu **przezbrajania** (32-bit) — BS6 | HMI → PLC |
+| R12 | Przyspieszenie obrotu przezbrajania | HMI → PLC |
+| R13 | Timeout obrotu przezbrajania [× 0.1 s] | HMI → PLC |
+| R14 | Prędkość obrotu **serwisowa** (32-bit) — BS3 | HMI → PLC |
 | R1412 | Bufor: zapis R1403 przed obrotem przezbrajania | wewnętrzny |
 | R1413 | Bufor: zapis R1211 przed obrotem przezbrajania | wewnętrzny |
 | R201 | Czas ostatniego cyklu [× 0.1 s] | PLC → HMI |
@@ -173,10 +175,10 @@ Zmiana **N0002** (START) — dopisać dwa styki:
 
 ```
 Było:   M300↑ · X0 · /S3 · M470          → SET S2
-Będzie: M300↑ · X0 · /S3 · M470 · M539 · /M320 · /M323 → SET S2
+Będzie: M300↑ · X0 · /S3 · M470 · M539 · /M320 → SET S2
 ```
 
-(`/M320`, `/M323` — start automatu zablokowany w trybie serwisowym i przezbrajania.)
+(`/M320` — start automatu zablokowany w trybie serwisowym.)
 Zakresy pozostałych nastaw (R7–R10, prędkości) ograniczyć w FvDesigner
 właściwościami min/max obiektów Numeric Input — patrz sekcja HMI.
 
@@ -218,214 +220,145 @@ aktywacji blokady: `M403↑ → (+1) R202` (diagnostyka spiętrzeń).
 
 # Część 2 — rozbudowa (R)
 
-## R1 — Tryb serwisowy
+## R1 — Tryb serwisowy (ekran BS3)
 
-**Założenia bezpieczeństwa:**
+**Założenia:**
 
-- wejście w tryb tylko w READY (S1), wyjście — przełącznikiem M320,
-- ruchy serwisowe wymagają zazbrojonego bezpieczeństwa (X0),
-- tryb serwisowy blokuje START automatu (P4), a START w toku blokuje tryb
-  (warunek S1),
-- obrót serwisowy wymaga zbazowanej osi (M470).
+- tryb serwisowy **M320** włącza się przy **wejściu na ekran SERWIS (BS3)** i
+  kasuje przy wyjściu (HMI: *On Screen Open* → Set M320, *On Leave* → Reset M320),
+- **nie wymaga** kluczyka — osłona **musi być zamknięta** (B4 w Pilz, X4=OFF),
+- ruchy serwisowe wymagają X0=ON; obrót serwisowy wymaga M470,
+- M320 blokuje START automatu (P4).
 
 ### Sieci
 
-Tryb aktywny (sygnalizacja + warunek dla ruchów):
-
 ```
-|--[M320]--[S1]--[X0]--( M329 )--|     // M329 = serwis aktywny (wewnętrzny)
+|--[M320]--[S1]--[X0]--[/X4]--( M329 )--|     // serwis aktywny — bez klucza przezbrajania
 ```
 
 ```
 ORG        M320
 AND        S1
 AND        X0
+AND   NOT  X4
 OUT        M329
 ```
 
-Transport jog — **modyfikacja N0022**:
+Transport jog — **modyfikacja N0022** (BS3 i BS6 — patrz R4):
 
 ```
-Było:   M410 → Y1
-Będzie: M410 + (M329 · M340) → Y1
+M410 + (M329 · M340) + (M330 · M340) → Y1
 ```
 
-```
-ORG        M410
-LD         M329
-AND        M340
-ORB
-OUT        Y1
-```
-
-Przedmuch ręczny — **modyfikacja N0009** (dodatkowa gałąź równoległa):
+Przedmuch ręczny — **modyfikacja N0009**:
 
 ```
-Było:   M400 · /M403 · M421 → Y4
-Będzie: (M400 · /M403 · M421) + (M329 · M341) → Y4
+(M400 · /M403 · M421) + (M329 · M341) + (M330 · M341) → Y4
 ```
 
-Obrót +90° (serwis, prędkość produkcyjna) — nowa sieć; **zablokowany gdy M323=ON**:
+Obrót serwisowy +90° (BS3, **R14**):
 
 ```
-|--[M329]--[/M323]--[M470]--[M342↑]--[/M431]--( SET S13 )--|
+|--[M329]--[M470]--[M342↑]--[/M431]--|
+|          +--[FUN MOV R1403→R1412]--[FUN MOV R14→R1403]--|
+|          +--( SET S13 )--|
 ```
 
-```
-ORG        M329
-AND   NOT  M323
-AND        M470
-AND   TU   M342
-AND   NOT  M431
-SET( )     S13
-```
+Bazowanie — M310 (istnieje). Jog transportu celowo omija M403 (B3).
 
-Bazowanie ręczne — istnieje (M310, N0012). Uwaga: jog transportu w serwisie
-celowo pomija blokadę B3 (M403) — odpowiedzialność operatora; przedmuch
-i obrót pozostają dostępne niezależnie od B3.
+## R4 — Kluczyk przezbrajania, ekran BS6, trzy prędkości obrotu
 
-## R4 — Tryb przezbrajania (powolny obrót 90° bez osłony)
+**Cel:** wymiana tulei / prowadnic przy **otwartej osłonie**. Kluczyk sygnalizuje
+**tryb przezbrajania** (nie tryb serwisowy). Tryb serwisowy to osobny ekran **BS3**.
 
-**Cel:** wymiana elementów modułu obrotowego (tuleje, prowadnice) na inny
-format słoika — operator pracuje **przy otwartej osłonie**, moduł obraca się
-**bardzo powoli** (90° na impuls), żeby można było bezpiecznie ustawić
-mechanikę między krokami.
+### Trzy prędkości obrotu modułu
 
-**Różnica względem obrotu serwisowego (M342):**
+| Tryb | Ekran / warunek | Rejestr | Typowa wartość | Osłona |
+|------|-----------------|---------|----------------|--------|
+| **Produkcja** | automat S2 | **R1403** | 9000 Hz | zamknięta |
+| **Serwis** | BS3, M329 (M320, X4=OFF) | **R14** | 4000 Hz | **zamknięta** |
+| **Przezbrajanie** | BS6, M330 (= X4) | **R11** | 500 Hz | może być **otwarta** |
 
-| | Obrót serwisowy M342 | Przezbrajanie M343 |
-|---|---------------------|-------------------|
-| Prędkość | R1403 (produkcyjna, np. 9000) | **R11** (np. 300–800) |
-| Przyspieszenie | R1211 (produkcyjna) | **R12** (np. 60000 — łagodny start) |
-| Timeout | R10 (np. 10 s) | **R13** (np. 60 s) |
-| Osłona | zamknięta (B4 w torze Pilz) | **otwarta** — kluczyk serwisowy w pozycji serwisowej |
+### Kluczyk — dwa obwody
 
-### Obwód bezpieczeństwa — kluczyk serwisowy (istnieje w schemacie)
+| Styk | Połączenie | Klucz PRODUKCJA | Klucz PRZEBRAJANIE |
+|------|------------|-----------------|---------------------|
+| **NC** | Pilz PNOZ X7 | B4 w torze | B4 **pominięty** |
+| **NO** | PLC **X4** | OFF | **ON** → M330 |
 
-W obwodzie **Pilz PNOZ X7** jest **przełącznik serwisowy z kluczykiem** (wg schematu
-[SKO.pdf](../../schemat_elektryczny/SKO.pdf), str. 4). Dzięki temu tryb przezbrajania
-z otwartą osłoną jest możliwy **bez zmian hardware**:
+E-stop w obu pozycjach. **X0** z Pilz — styk NO **nie zastępuje** bezpieczeństwa.
 
-| Pozycja klucza | B4 (osłona) | E-stop | X0 (PLC) | Ruch napędów |
-|----------------|-------------|--------|----------|--------------|
-| **Produkcja** | w torze — osłona musi być zamknięta | aktywny | ON gdy wszystko OK | automat / serwis przy zamkniętej osłonie |
-| **Serwis** | pominięty w torze Pilz | aktywny | ON przy odryglowanym E-stop | tylko tryb przezbrajania (M323), powolny obrót |
+### Ekran PRZEBRAJANIE (BS6)
 
-Przy otwartej osłonie **bez** klucza w pozycji serwisowej B4 rozbraja Pilz →
-**X0=OFF** → program nie uruchomi obrotu (warunek X0 w N0017/N0028 i M330).
+Po **X4=ON** panel **automatycznie przechodzi na BS6** (*Screen Change* w HMI
+przy X4↑ lub stała widoczność z wymuszeniem nawigacji).
 
-PLC **nie musi** osobno odczytywać pozycji klucza — wystarczy **X0=ON** jako
-potwierdzenie, że obwód bezpieczeństwa (w tym wybrany tryb Pilz) jest zazbrojony.
-E-stop działa w obu pozycjach klucza.
+**Zawartość BS6:**
 
-### Nastawy (panel serwisowy BS3)
+1. **Instrukcja** (tekst statyczny):
+   - klucz w pozycji przezbrajania, osłona może być otwarta,
+   - obracaj moduł krokami, nie wkładaj rąk w gniazda podczas ruchu,
+   - po wymianie: klucz → produkcja, zamknij osłonę, HOME.
+2. **Przyciski obrotu modułu** (R11, R12, R13):
+   - **GÓRA / LEWO** — M343 (+90°),
+   - **DÓŁ / PRAWO** — M344 (−90°; ten sam program serwo z **+25000** imp zamiast −25000).
+3. **Jog napędów transportu** — M340 (przytrzymany, jak w serwisie).
+4. **Przedmuch ręczny** — M341 (opcjonalnie).
+5. Nastawy **R11, R12, R13** (edycja na BS6 lub BS2 serwis).
+6. Lampki: X0, M330, M431, M536.
+7. **Wstecz** — tylko gdy X4=OFF (klucz wyłączony).
 
-| Rejestr | Domyślnie | Zakres HMI | Opis |
-|---------|-----------|------------|------|
-| R11 | 500 | 50–2000 | Prędkość obrotu przezbrajania [Hz] |
-| R12 | 60000 | 10000–60000 | Acc/dec tylko na czas przezbrajania |
-| R13 | 600 | 100–3600 | Timeout obrotu [× 0.1 s] |
+### Nastawy
 
-Przy włączeniu M323 program **klamruje** R11 (min 50, max 2000) — nie da się
-przypadkowo ustawić prędkości produkcyjnej.
+| Rejestr | Domyślnie | Zakres | Ekran |
+|---------|-----------|--------|-------|
+| R1403 | 9000 | 500–20000 | BS2 — produkcja |
+| R14 | 4000 | 500–15000 | BS3 — serwis |
+| R11 | 500 | 50–2000 | BS6 — przezbrajanie |
+| R12 | 60000 | 10000–60000 | BS6 |
+| R13 | 600 | 100–3600 | BS6 [× 0.1 s] |
+
+Przy M330 program **klamruje** R11 (min 50, max 2000).
 
 ### Sieci PLC
 
-**Aktywacja trybu:**
-
 ```
-|--[M320]--[M323]--[S1]--[/S2]--[/S3]--( M330 )--|
-```
-
-```
-ORG        M320
-AND        M323
-AND        S1
-AND   NOT  S2
-AND   NOT  S3
-OUT        M330
+|--[X4]--( M330 )--|          // przezbrajanie = kluczyk
+ORG   X4
+OUT   M330
 ```
 
-**Przy wejściu w tryb (M330↑)** — jednorazowo łagodne parametry osi:
+**Obrót przezbrajania +90° (M343):**
 
 ```
-|--[M330↑]--[FUN MOV R1211→R1413]--[FUN MOV R12→R1211]--[M305 impuls]--|
+|--[M330]--[M470]--[M343↑]--[/M431]--|
+|          +-- MOV R1403→R1412, R11→R1403, R1211→R1413, R12→R1211, M305 |
+|          +-- SET S13, SET M536 |
 ```
 
-(zapis bufora R1413 i MPARA — jak w R2 grupa B; wykonać tylko gdy /M431·/M460)
+**Obrót −90° (M344):** jak M343, ale przed SET S13: **MOV +25000 → R1406**
+(bufor kąta w tabeli ROTATE; po ruchu przywróć −25000).
 
-**Przy wyjściu z trybu (M330↓ / M323 OFF)** — przywrócenie R1211 produkcyjnego
-z R1413 + M305.
+**Po M432↑ · M536:** przywróć R1403, R1211 z R1412/R1413, RST M536, przywróć R1406.
 
-**Start powolnego obrotu** (M343↑, tylko gdy M330, /M431):
+**Timeout:** T53/R13 gdy M536; T52/R10 w serwisie (M342, R14).
 
-```
-|--[M330]--[M343↑]--[/M431]--|
-|          +--[FUN MOV R1403→R1412]--|
-|          +--[FUN MOV R11→R1403]--|
-|          +--( SET S13 )--( SET M536 )--|
-```
+**Blokady:**
 
-```
-ORG        M330
-AND   TU   M343
-AND   NOT  M431
-FUN   08 _.MOV
-      S :  R1403
-      D :  R1412
-FUN   08 _.MOV
-      S :  R11
-      D :  R1403
-SET( )     S13
-SET( )     M536
-```
+- M320 (BS3) i M330 (BS6) **wykluczają się** — M329 wymaga `/X4`,
+- M330 → START zablokowany (`/M320` w N0002; M320 OFF w przezbrajaniu),
+- X4=OFF + otwarta osłona → X0=OFF,
+- X4↓ → HMI wraca z BS6 na BS1, RST M536.
 
-M536 = „obrót przezbrajania w toku" — lampka HMI + wybór timeoutu.
+### Procedury
 
-**Po zakończeniu obrotu** — rozszerzenie N0029:
+**Serwis (BS3):** klucz PRODUKCJA, osłona zamknięta → wejście na ekran SERWIS →
+jog M340, przedmuch M341, obrót M342 (R14), HOME.
 
-```
-Było:   M432↑ → MOV 0→R1511, RST S13
-Dopisać: M432↑ · M536 → MOV R1412→R1403, RST M536
-```
+**Przezbrajanie (BS6):** STOP → klucz PRZEBRAJANIE (X4) → panel **BS6** →
+obrót M343/M344, jog M340 → klucz PRODUKCJA, zamknij osłonę, HOME.
 
-```
-ORG   TU   M432
-AND        M536
-FUN   08 _.MOV
-      S :  R1412
-      D :  R1403
-RST( )     M536
-```
-
-**Timeout przezbrajania** — rozszerzenie P2:
-
-```
-|--[S13]--[/M432]--[M536]--[T53 .1 R13]--( SET M531 )--( SET S3 )--|
-```
-
-(przy M536=OFF pozostaje istniejący T52/R10)
-
-**Blokady wzajemne:**
-
-- M323=ON → M342 zablokowany (sieć wyżej),
-- M323=ON → START automatu zablokowany (`/M323` w N0002 obok `/M320`),
-- M323=ON → transport jog (M340) **zablokowany** — tylko obrót modułu,
-- S2=ON lub S3=ON → M330=OFF (M323 musi być OFF lub warunek S1 nie spełniony).
-
-### Procedura operatora (przezbrajanie)
-
-1. STOP, **kluczyk serwisowy w pozycji SERWIS**, osłonę można otworzyć, E-stop odryglowany
-   (X0=ON — lampka bezpieczeństwa na panelu).
-2. Panel → SERWIS → włącz **TRYB SERWISOWY** (M320).
-3. Włącz **TRYB PRZEBRAJANIA** (M323) — lampka M330.
-4. Ustaw **R11** (prędkość, start od 500) i ewentualnie **R12** (acc/dec).
-5. Naciśnij **OBRÓT PRZEBRAJANIA +90°** (M343) — moduł obraca się powoli;
-   powtórz 2–4 razy, aż moduł będzie w dogodnej pozycji do wymiany tulei.
-6. Wyłącz M323, **kluczyk w pozycję PRODUKCJA**, zamknij osłonę, **HOME**, wyłącz serwis.
-
-> Prędkość startowa R11=500 daje ~50× wolniejszy obrót niż produkcyjne 9000.
-> Dostosować na maszynie — cel: pełne 90° w ok. 15–30 s.
+> R11=500 ≈ 8× wolniej niż R14=4000. Cel: 90° w 15–30 s.
 
 ## R2 — Nastawy prędkości i przyspieszenia z HMI
 
@@ -552,21 +485,22 @@ Poniżej skrót zakresu zmian.
 Dostęp do BS2 zabezpieczyć hasłem (poziom użytkownika FvDesigner) —
 przynajmniej dla pól grupy B.
 
-## BS3 (SERWIS) — nowy ekran
+## BS3 (SERWIS) — ekran serwisowy
 
-- przełącznik **TRYB SERWISOWY** (M320) + lampka aktywności (M329),
-- przełącznik **TRYB PRZEBRAJANIA** (M323) + lampka M330 + komunikat
-  *„Kluczyk SERWIS + otwarta osłona — tylko powolny obrót"* (X0 musi być ON),
-- **Prędkość obrotu przezbrajania** (R11, 50–2000, domyślnie 500),
-- **Przyspieszenie przezbrajania** (R12, 10000–60000),
-- **Timeout przezbrajania** (R13, ×0.1 s, domyślnie 600),
-- przycisk **OBRÓT PRZEBRAJANIA +90°** (M343) + lampka ruchu (M536 / M431),
-- przycisk **OBRÓT SERWIS +90°** (M342, tylko gdy /M323) + lampka M431,
-- przycisk z podtrzymaniem **TRANSPORT JOG** (M340, zablokowany gdy M323),
-- przełącznik **PRZEDMUCH** (M341),
-- przycisk **HOME** (M310) + lampka M470,
-- przycisk **ZERUJ LICZNIK PARTII** (M311), **ZERUJ STATYSTYKI** (M312),
-- podgląd wejść X0–X4, wyjść Y1/Y4, pozycji R1501, licznika C0/R100.
+- **Wejście na ekran** → Set **M320**; wyjście → Reset M320 (M329 = M320·S1·X0·/X4),
+- **Prędkość obrotu serwisowa** (R14, 500–15000),
+- przycisk **OBRÓT +90°** (M342, R14) + lampka M431,
+- **TRANSPORT JOG** (M340), **PRZEDMUCH** (M341), **HOME** (M310),
+- zerowania M311/M312, podgląd diagnostyczny.
+- **Niedostępny gdy X4=ON** (klucz przezbrajania — wtedy BS6).
+
+## BS6 (PRZEBRAJANIE) — ekran przezbrajania
+
+- **Automatyczne wejście** gdy X4=ON (kluczyk); wyjście gdy X4=OFF,
+- **Instrukcja** (tekst procedury wymiany tulei),
+- **GÓRA / LEWO** (M343, +90°, R11) i **DÓŁ / PRAWO** (M344, −90°, R11),
+- **JOG TRANSPORTU** (M340), opcjonalnie przedmuch (M341),
+- nastawy R11, R12, R13; lampki M330, M431, M536, X0.
 
 ## BS4 (ALARMY) — nowy ekran
 
@@ -594,8 +528,8 @@ Alternatywnie: obiekt Alarm w FvDesigner z rejestracją historii na bitach M530�
 2. PLC — poprawki P1–P5 (nowe sieci za N0030 + modyfikacje N0001, N0002,
    N0006, N0014, N0020, N0029). **F8** (składnia) po każdej grupie.
 3. PLC — rozbudowa R1–R4 (modyfikacje N0009, N0022, N0029 + nowe sieci).
-4. HMI — BS2/BS3/BS4 i uzupełnienia BS1.
-5. Nastawy początkowe: R9=300, R10=100, **R11=500, R12=60000, R13=600**
+4. HMI — BS2/BS3/**BS6**/BS4 i uzupełnienia BS1.
+5. Nastawy początkowe: R9=300, R10=100, **R11=500, R12=60000, R13=600, R14=4000**
    (R1403/R1303/R1312/R1209/R1211 już mają wartości z tabel — nie nadpisywać zerami!).
 6. Wgranie do PLC (**F9**) i panelu, testy wg listy poniżej.
 7. Wydruk PDF → `plc/SKO-Program.pdf`, eksporty → `plc/export/`,
@@ -610,12 +544,12 @@ Alternatywnie: obiekt Alarm w FvDesigner z rejestracją historii na bitach M530�
 | 3 | Obrót z zablokowanym modułem | Po R10×0.1 s alarm M531, S3, M470 skasowane |
 | 4 | E-stop w trakcie liczenia → RESET → START | C0 zachowane, partia dokończona bez nadmiaru |
 | 5 | STOP w trakcie partii → „Zeruj licznik" → START | Partia od zera |
-| 6 | Serwis: jog/przedmuch/obrót przy S2=ON | Niedostępne (M329=OFF) |
-| 7 | Serwis: obrót +90° ×4 (M342, M323=OFF) | Moduł wraca do pozycji wyjściowej |
-| 7b | Przezbrajanie: M323, R11=500, obrót ×2 (M343) | Obrót widocznie wolniejszy niż M342; R1403 przywrócone po każdym kroku |
-| 7c | Przezbrajanie: M323=ON → próba M342 | Zablokowane |
-| 7d | Przezbrajanie: otwarta osłona, klucz w PRODUKCJA | Brak ruchu (X0=OFF, B4 w torze Pilz) |
-| 7e | Przezbrajanie: otwarta osłona, klucz w SERWIS, M343 | Powolny obrót 90°, X0=ON |
+| 6 | Serwis BS3: wejście na ekran, X4=OFF | M320/M329 ON, jog, M342 (R14) |
+| 7 | Przezbrajanie: X4=ON → BS6 | M330 ON, M343/M344 (R11), jog M340 |
+| 7b | X4=ON, R11=500 vs BS3 R14=4000 | Obrót wyraźnie wolniejszy na BS6 |
+| 7c | X4=ON + otwarta osłona | X0=ON, ruch możliwy |
+| 7d | X4=OFF + otwarta osłona | X0=OFF, brak ruchu |
+| 7e | X4↓ w trakcie BS6 | Powrót BS1, parametry produkcyjne przywrócone |
 | 8 | Zmiana prędkości obrotu na HMI | Następny obrót z nową prędkością bez MPARA |
 | 9 | Zmiana acc/dec + ZAPISZ (M305) podczas obrotu | Zapis odrzucony (N0015), po zatrzymaniu — przyjęty |
 | 10 | Liczniki D100/D102 po 3 partiach | D100=3, D102=3×R6; M312 zeruje |

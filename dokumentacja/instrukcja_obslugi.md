@@ -133,18 +133,21 @@ lub prędkości linii odbiorczej).
 
 ## 8. Przezbrajanie (zmiana formatu słoika)
 
-Wymiana tulei / prowadnic w module obrotowym. **Tylko personel serwisowy.**
+Wymiana tulei / prowadnic. **Tylko personel serwisowy z kluczem.**
 
 1. **STOP** maszyny.
-2. **Kluczyk Pilz → pozycja SERWIS** (patrz [bezpieczenstwo.md](bezpieczenstwo.md)).
-3. Otwórz osłonę modułu.
-4. Panel → **SERWIS** → włącz **Tryb serwisowy** → **Tryb przezbrajania**.
-5. Ustaw **niską prędkość obrotu** (np. 500).
-6. Naciskaj **Obrót przezbrajania +90°** — ustaw moduł w dogodnej pozycji,
-   wymień elementy na format docelowy (średnice: [srednice_slokow.txt](srednice_slokow.txt)).
-7. Wyłącz tryb przezbrajania i serwisowy.
-8. **Kluczyk → PRODUKCJA**, zamknij osłonę.
-9. **HOME** → **START** — próba jałowa bez słoików, potem produkcja.
+2. **Kluczyk → PRZEBRAJANIE** (X4) — panel automatycznie na ekranie **BS6**.
+3. Otwórz osłonę; postępuj wg **instrukcji na ekranie**.
+4. **GÓRA / LEWO** (M343) i **DÓŁ / PRAWO** (M344) — obrót modułu o ±90° (R11).
+5. **Jog napędów** (M340) — podawanie słoików bez wchodzenia w strefę ruchu.
+6. Wymień elementy ([srednice_slokow.txt](srednice_slokow.txt)).
+7. **Kluczyk → PRODUKCJA**, zamknij osłonę, **HOME** → **START** — próba jałowa.
+
+### Serwis bez klucza (ekran BS3)
+
+Osłona zamknięta, klucz PRODUKCJA → przycisk **SERWIS** na BS1 → ekran **BS3**
+(M320 włącza się przy wejściu): jog M340, przedmuch M341, obrót M342 (**R14**).
+Szczegóły: [instrukcja_serwisowa.md](instrukcja_serwisowa.md) §5.
 
 ---
 
@@ -167,7 +170,7 @@ Szczegółowa diagnostyka: [instrukcja_serwisowa.md](instrukcja_serwisowa.md).
 
 - Nie uruchamiaj produkcji przy **otwartej osłonie** (kluczyk w PRODUKCJI).
 - Nie wyłączaj **Liczenia** ani **Powietrza** w produkcji bez zgody serwisu.
-- Nie wchodź do strefy ruchu modułu bez trybu serwisowego i kluczyka SERWIS.
+- Nie wchodź do strefy ruchu bez **ekranu BS6** (klucz PRZEBRAJANIE) lub **BS3** (osłona zamknięta).
 - Nie zmieniaj parametrów w SETUP bez szkolenia / upoważnienia.
 - Nie ignoruj powtarzających się alarmów obrotu — możliwe uszkodzenie napędu.
 

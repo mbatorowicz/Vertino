@@ -12,7 +12,7 @@ Mapa adresów (skrót): [hmi.md](hmi.md).
 ## 0. Przed rozpoczęciem
 
 1. **Kopia zapasowa:** `File → Save As` → `SKO - Program 1_przed_rozbudowa.fpj`.
-2. **PLC online** z rozbudowanym programem (co najmniej adresy M300–M343, R6–R13, M530–M539).
+2. **PLC online** z rozbudowanym programem (M300–M344, R6–R14, X4, M530–M539).
 3. W FvDesigner: `Project → Communication Setting` — sprawdź połączenie z `@HB1`
    (port COM / Ethernet jak na maszynie). Test: podgląd X0 na monitorze.
 4. Format adresu w tym projekcie (widać na BS2): **`@HB1:R1221`** — stosuj ten sam
@@ -45,7 +45,8 @@ Mapa adresów (skrót): [hmi.md](hmi.md).
 |-------|-------|--------|-------|
 | BS1 | RUN | operator | **Istnieje** — uzupełnij |
 | BS2 | SETUP | hasło serwis | **Istnieje** — rozbuduj |
-| BS3 | SERWIS | hasło serwis | **Nowy** |
+| BS3 | SERWIS | hasło serwis | **Nowy** — M320 przy wejściu |
+| BS6 | PRZEBRAJANIE | auto gdy X4 | **Nowy** — kluczyk |
 | BS4 | ALARMY | operator (auto przy S3) | **Nowy** |
 | BS5 | Screensaver | — | bez zmian |
 | Popup | Klawiatura numeryczna | — | bez zmian (podpięta pod ND) |
@@ -54,7 +55,8 @@ Nawigacja:
 
 ```
 BS1 ──[SET]──► BS2 ──[Wstecz]──► BS1
-BS1 ──[SERWIS]──► BS3 ──[Wstecz]──► BS1
+BS1 ──[SERWIS]──► BS3 ──[Wstecz]──► BS1     (M320 ON/OFF przy wejściu/wyjściu)
+X4=ON ──auto──► BS6 ──(X4=OFF)──► BS1
 BS1 ──[ALARM] lub auto S3 ──► BS4 ──[RESET/Wstecz]──► BS1
 ```
 
@@ -88,11 +90,11 @@ BS1 ──[ALARM] lub auto S3 ──► BS4 ──[RESET/Wstecz]──► BS1
 | Element UI | Typ | Adres | Położenie / styl |
 |------------|-----|-------|------------------|
 | „PAUZA B3" | SL + Text | `@HB1:M403` | pasek statusu, ON=żółty |
-| „SERWIS" | SL | `@HB1:M320` | mała lampka, ON=pomarańcz |
+| „PRZEBRAJANIE" | SL | `@HB1:M330` (= X4) | mała lampka, ON=pomarańcz |
 | Partie łącznie | ND Display | `@HB1:D100` | etykieta „Partie:", tylko odczyt |
 | Czas cyklu [s] | ND Display | `@HB1:R201` | etykieta „Cykl:"; **podziel wyświetlanie ÷10** lub opis „×0,1 s" |
 | Krok cyklu (opcjonalnie) | Text dynamiczny / 4× SL | S10,S11,S12,S13 | który ON → tekst HOMING/LICZENIE/… |
-| Przycisk SERWIS | SB | → BS3 | hasło serwis |
+| Przycisk SERWIS | SB | → BS3 | hasło serwis; **Disable gdy X4=1** |
 | Przycisk ALARMY | SB | → BS4 | widoczny gdy S3=ON (Visibility: S3=1) |
 
 **Właściwości HOME (Bit Button M310):**
@@ -148,77 +150,77 @@ Istniejące pola — **popraw etykiety** (zgodnie z PLC):
 
 ---
 
-## 4. BS3 (SERWIS) — nowy ekran
+## 4. BS3 (SERWIS) — ekran serwisowy
 
 Utwórz: `Screen → New` → nazwa **BS3**, tytuł **SERWIS**.
-Rozmiar i styl jak BS1 (ciemne tło, czcionka Tahoma/Arial).
 
-### 4.1 Nagłówek i tryby
+**Właściwości ekranu BS3:**
+
+| Właściwość | Wartość |
+|------------|---------|
+| On Screen Open | Write `@HB1:M320` = Set |
+| On Screen Close / Wstecz | Write `@HB1:M320` = Reset |
+| Password Level | 2 (serwis) |
+| Enable / Visibility | `@HB1:X4` = OFF (niedostępny w trybie przezbrajania) |
+
+### 4.1 Elementy BS3
 
 | Element | Typ | Adres | Uwagi |
 |---------|-----|-------|-------|
 | Tytuł | Text | — | „SERWIS" |
-| TRYB SERWISOWY | BB Toggle + SL | `@HB1:M320` | Enable: `@HB1:S1` |
-| Lampka serwis aktywny | SL | `@HB1:M329` | tylko odczyt (PLC ustawia) |
-| TRYB PRZEBRAJANIA | BB Toggle + SL | `@HB1:M323` | Enable: M320=ON |
-| Lampka przezbrajanie | SL | `@HB1:M330` | tylko odczyt |
-| Komunikat | Text | — | „Przezbrajanie: kluczyk Pilz w SERWIS, osłona otwarta OK" |
-
-### 4.2 Nastawy przezbrajania
-
-| Etykieta | Adres | Typ | Min | Max | Domyślnie |
-|----------|-------|-----|-----|-----|-----------|
-| Prędkość obrotu przezbraj. | `@HB1:R11` | 32-bit | 50 | 2000 | 500 |
-| Przyspieszenie przezbraj. | `@HB1:R12` | 16-bit | 10000 | 60000 | 60000 |
-| Timeout przezbraj. [×0,1 s] | `@HB1:R13` | 16-bit | 100 | 3600 | 600 |
-
-Enable pól R11–R13: `@HB1:M323` = ON.
-
-### 4.3 Przyciski ruchu
-
-| Etykieta | Adres | Typ Write | Enable |
-|----------|-------|-----------|--------|
-| TRANSPORT JOG | `@HB1:M340` | Set gdy trzymany / Reset gdy puszczony | M329=ON **AND** M323=OFF |
-| PRZEDMUCH ręczny | `@HB1:M341` | Toggle | M329=ON |
-| OBRÓT SERWIS +90° | `@HB1:M342` | impuls Set/Reset | M329=ON, M470=ON, M323=OFF, NOT M431 |
-| OBRÓT PRZEBRAJANIA +90° | `@HB1:M343` | impuls Set/Reset | M330=ON, NOT M431 |
-| HOME | `@HB1:M310` | impuls Set/Reset | S1=ON |
-| Lampka ruch osi | `@HB1:M431` | SL (odczyt) | — |
-| Lampka przezbr. w toku | `@HB1:M536` | SL (odczyt) | — |
-
-### 4.4 Zerowania
-
-| Etykieta | Adres | Write |
-|----------|-------|-------|
-| ZERUJ LICZNIK PARTII | `@HB1:M311` | impuls; Enable: NOT S2 |
-| ZERUJ STATYSTYKI | `@HB1:M312` | impuls |
-
-### 4.5 Podgląd diagnostyczny (dół ekranu)
-
-Dwie kolumny małych lampek SL (etykieta + lampka):
-
-| Etykieta | Adres |
-|----------|-------|
-| X0 Bezpieczeństwo | `@HB1:X0` |
-| X1 B1 | `@HB1:X1` |
-| X3 B3 | `@HB1:X3` |
-| Y1 Transport | `@HB1:Y1` |
-| Y4 Przedmuch | `@HB1:Y4` |
-
-Numeric Display (tylko odczyt):
-
-| Etykieta | Adres |
-|----------|-------|
-| Pozycja modułu | `@HB1:R1501` |
-| Licznik C0 | `@HB1:R100` |
-| Partie total | `@HB1:D100` |
-| Sztuki total (32-bit) | `@HB1:D102` | typ ND 32-bit |
-
-**Wstecz** → BS1 (SB). **Password Level** = 2.
+| Lampka serwis aktywny | SL | `@HB1:M329` | odczyt |
+| Prędkość obrotu serwis. | ND Input | `@HB1:R14` | 32-bit, 500–15000, domyślnie 4000 |
+| TRANSPORT JOG | BB | `@HB1:M340` | Set/Reset; Enable: M329 |
+| PRZEDMUCH | BB Toggle | `@HB1:M341` | M329 |
+| OBRÓT +90° | BB | `@HB1:M342` | impuls; M329, M470, NOT M431 |
+| HOME | BB | `@HB1:M310` | S1 |
+| ZERUJ LICZNIK / STAT. | BB | `@HB1:M311`, `@HB1:M312` | impuls |
+| Wstecz | SB | → BS1 | Reset M320 |
 
 ---
 
-## 5. BS4 (ALARMY) — nowy ekran
+## 5. BS6 (PRZEBRAJANIE) — ekran przezbrajania
+
+Utwórz: `Screen → New` → nazwa **BS6**, tytuł **PRZEBRAJANIE**.
+
+**Właściwości ekranu BS6:**
+
+| Właściwość | Wartość |
+|------------|---------|
+| Visibility / auto-open | `@HB1:X4` = ON; przy X4↑ → `Screen Change` na BS6 |
+| On X4↓ (macro / PLC) | powrót BS1 |
+| Password Level | 2 lub 1 (operator upoważniony przy kluczu) |
+
+### 5.1 Instrukcja (Text, duży blok)
+
+```
+PRZEBRAJANIE — wymiana tulei / formatu słoika
+• Klucz w pozycji PRZEBRAJANIA — osłona może być otwarta.
+• Obracaj moduł przyciskami GÓRA/LEWO i DÓŁ/PRAWO (+90° / −90°).
+• Jog transportu — podaj słoiki do modułu bez wchodzenia w strefę ruchu.
+• NIE wkładaj rąk w gniazda podczas obrotu.
+• Po wymianie: klucz → PRODUKCJA, zamknij osłonę, HOME, START.
+```
+
+### 5.2 Elementy BS6
+
+| Element | Typ | Adres | Uwagi |
+|---------|-----|-------|-------|
+| Lampka PRZEBRAJANIE | SL | `@HB1:M330` | = X4 |
+| Prędkość obrotu | ND Input | `@HB1:R11` | 32-bit, 50–2000 |
+| Przysp. / Timeout | ND Input | `@HB1:R12`, `@HB1:R13` | |
+| GÓRA / LEWO (+90°) | BB | `@HB1:M343` | impuls; M330, M470, NOT M431 |
+| DÓŁ / PRAWO (−90°) | BB | `@HB1:M344` | impuls; j.w. |
+| JOG TRANSPORTU | BB | `@HB1:M340` | Set/Reset; M330 |
+| PRZEDMUCH (opc.) | BB Toggle | `@HB1:M341` | M330 |
+| Lampka ruch osi | SL | `@HB1:M431`, `@HB1:M536` | |
+| X0 Bezpieczeństwo | SL | `@HB1:X0` | |
+
+Wstecz — tylko gdy X4=OFF (klucz wyłączony).
+
+---
+
+## 6. BS4 (ALARMY) — nowy ekran
 
 Utwórz **BS4**, tytuł **ALARMY**.
 
@@ -260,7 +262,7 @@ W FvDesigner: obiekt **Bit Lamp** S3 na BS1 z akcją **Screen Switch** ON → BS
 
 ---
 
-## 6. Klawiatura numeryczna (popup)
+## 7. Klawiatura numeryczna (popup)
 
 Istniejący ekran popup — podłącz do **wszystkich** nowych pól ND Input:
 
@@ -270,7 +272,7 @@ Istniejący ekran popup — podłącz do **wszystkich** nowych pól ND Input:
 
 ---
 
-## 7. Hasła i poziomy użytkownika
+## 8. Hasła i poziomy użytkownika
 
 | Poziom | Ekrany | Hasło |
 |--------|--------|-------|
@@ -281,7 +283,7 @@ Operator na BS1 nie widzi SETUP/SERWIS bez hasła.
 
 ---
 
-## 8. Wgranie do panelu
+## 9. Wgranie do panelu
 
 1. `Project → Compile` — brak błędów.
 2. Podłącz panel P2043 (USB / RS-232 / Ethernet — jak skonfigurowane).
@@ -290,7 +292,7 @@ Operator na BS1 nie widzi SETUP/SERWIS bez hasła.
 
 ---
 
-## 9. Testy HMI (po wgraniu PLC + panelu)
+## 10. Testy HMI (po wgraniu PLC + panelu)
 
 | # | Czynność | Oczekiwany wynik |
 |---|----------|------------------|
@@ -298,10 +300,10 @@ Operator na BS1 nie widzi SETUP/SERWIS bez hasła.
 | H2 | Edycja R6 na BS1 lub BS2 | wartość w PLC (F11) = wpisana |
 | H3 | Toggle M420 OFF | C0 nie rośnie przy B1 |
 | H4 | M305 na BS2 po zmianie R1211 | brak M468, parametr w PLC |
-| H5 | BS3: M320 ON przy S1 | M329=ON, START zablokowany |
-| H6 | BS3: M342 impuls | obrót modułu, M431 miga |
-| H7 | BS3: M323+M343, R11=500 | obrót wyraźnie wolniejszy niż H6 |
-| H8 | BS3: M323 ON → M342 disabled | przycisk szary / nie reaguje |
+| H5 | Wejście BS3, X4=OFF | M320 ON, M329 ON, M342 (R14) |
+| H6 | X4=ON | auto BS6, M330, M343 wolny obrót |
+| H7 | BS6: M343 vs BS3 M342 | BS6 wyraźnie wolniejszy (R11 vs R14) |
+| H8 | BS6: M340 jog transportu | Y1 ON gdy trzymany |
 | H9 | Wymuszenie S3 (E-stop) | BS4 lub lampka ALARM, M535=ON |
 | H10 | RESET na BS4 | S3=OFF, latch M530–M535 skasowane |
 | H11 | M311 zeruj licznik | R100/C0=0 przy STOP |
@@ -309,17 +311,17 @@ Operator na BS1 nie widzi SETUP/SERWIS bez hasła.
 
 ---
 
-## 10. Checklist — szybkie odniesienie adresów
+## 11. Checklist — szybkie odniesienie adresów
 
 ### HMI → PLC (zapis)
 
 ```
 M300 START      M301 STOP       M302 RESET      M305 ZAPISZ PAR.
 M310 HOME       M311 ZERUJ C0   M312 ZERUJ STAT.
-M320 SERWIS     M323 PRZEZBR.   M329 (tylko PLC)
-M340 JOG        M341 PRZEDMUCH  M342 OBRÓT SER.  M343 OBRÓT PRZEZBR.
+M320 SERWIS(bs3) M329 (PLC)  X4→M330 PRZEBRAJ.
+M340 JOG  M341 PRZEDMUCH  M342 OBR.SER.  M343/M344 OBR.PRZEZBR.
 M420 LICZENIE   M421 POWIETRZE
-R6 R7 R8 R9 R10 R11 R12 R13
+R6 R7 R8 R9 R10 R11 R12 R13 R14
 R1209 R1211 R1221 R1303 R1312 R1403
 ```
 
@@ -336,14 +338,15 @@ C0 (opcjonalnie zamiast R100)
 
 ---
 
-## 11. Kolejność prac w FvDesigner (zalecana)
+## 12. Kolejność prac w FvDesigner (zalecana)
 
 1. Zweryfikuj adresy na **BS1** (HOME odblokowany, M310 enable S1).
 2. Rozbuduj **BS2** (nowe pola + M305).
 3. Utwórz **BS4** (alarmy — działa od razu po PLC P3).
-4. Utwórz **BS3** (serwis + przezbrajanie — po PLC R1–R4).
-5. Uzupełnij **BS1** (pauza, statystyki, nawigacja).
-6. Hasła, compile, download, testy H1–H12.
+4. Utwórz **BS3** (serwis — M320 przy wejściu).
+5. Utwórz **BS6** (przezbrajanie — auto przy X4).
+6. Uzupełnij **BS1** (pauza, lampka PRZEBRAJANIE, nawigacja).
+7. Hasła, compile, download, testy H1–H12.
 
 ---
 

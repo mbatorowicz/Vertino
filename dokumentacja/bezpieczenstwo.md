@@ -37,7 +37,8 @@ obrażenia ciała lub uszkodzenie urządzenia.
 ```
 E-stop (S1) ──┐
 Czujnik osłony B4 ──┼──► Pilz PNOZ X7 ──► zezwolenie napędów + sygnał X0 do PLC
-Kluczyk serwisowy ──┘
+Kluczyk (styk NC) ──┘
+Kluczyk (styk NO) ──────► X4 KEY_PRZEBRAJ do PLC
 Przycisk RESET (S2)
 ```
 
@@ -45,18 +46,20 @@ Przycisk RESET (S2)
 |---------|---------|
 | **E-stop (czerwony grzybek)** | Natychmiastowe odcięcie zezwolenia ruchu. Obroć, aby odryglować. |
 | **Czujnik osłony B4** (Schneider XCSZC7902) | Magnetyczny — osłona otwarta rozbraja obwód (w trybie PRODUKCJA). |
-| **Kluczyk serwisowy Pilz** | **PRODUKCJA:** B4 aktywny. **SERWIS:** B4 pominięty — praca przy otwartej osłonie możliwa tylko w trybie przezbrajania z niską prędkością. |
-| **RESET obwodu (S2)** | Po E-stop / otwarciu osłony — reset przekaźnika Pilz. |
-| **X0 → PLC** | Status bezpieczeństwa — przy X0=OFF maszyna w ALARM. |
+| **Kluczyk** | **NC → Pilz:** PRODUKCJA = B4 w torze; **PRZEBRAJANIE** = bypass B4. **NO → X4:** sygnalizuje **tryb przezbrajania** (nie serwis) — panel → ekran BS6, obrót R11. |
+| **X4 → PLC** | Klucz w pozycji **przezbrajania** — nie zastępuje X0. |
 
-### Pozycje kluczyka serwisowego
+### Pozycje kluczyka
 
-| Pozycja | Osłona | Dozwolone |
-|---------|--------|-----------|
-| **PRODUKCJA** | Musi być zamknięta | Praca automatyczna, serwis przy zamkniętej osłonie |
-| **SERWIS** | Może być otwarta | Tylko przezbrajanie (powolny obrót), **nie** produkcja |
+| Pozycja | Pilz (NC) | X4 (NO) | Osłona | Dozwolone |
+|---------|-----------|---------|--------|-----------|
+| **PRODUKCJA** | B4 w torze | OFF | zamknięta | Automat; **ekran SERWIS (BS3)** — jog, obrót R14 |
+| **PRZEBRAJANIE** | B4 pominięty | ON | może otwarta | **Ekran BS6:** M343/M344, jog M340, R11 |
 
 **E-stop działa w obu pozycjach klucza.**
+
+**Serwis (BS3)** — wejście na ekran SERWIS, **bez klucza**, osłona zamknięta.
+**Przezbrajanie (BS6)** — klucz w pozycji PRZEBRAJANIE (X4), panel automatycznie na BS6.
 
 ---
 
@@ -67,7 +70,7 @@ Przycisk RESET (S2)
 1. Wszystkie ruchy zatrzymane.
 2. Usuń przyczynę (jeśli znana).
 3. Odrygluj E-stop.
-4. Zamknij osłonę (tryb PRODUKCJA) lub ustaw kluczyk (tryb SERWIS).
+4. Zamknij osłonę (PRODUKCJA) lub ustaw klucz (PRZEBRAJANIE).
 5. Naciśnij **RESET** Pilz.
 6. Na panelu: **RESET** alarmu.
 7. Wykonaj **HOME** przed wznowieniem produkcji.
@@ -89,11 +92,11 @@ Przycisk RESET (S2)
 ## 5. Przezbrajanie — bezpieczeństwo
 
 1. **STOP** produkcji.
-2. **Kluczyk → SERWIS** (tylko upoważniony personel).
-3. Otwórz osłonę.
-4. Tryb **przezbrajania** na panelu — **tylko powolny obrót** (+90° krokami).
-5. **Nie wkładaj rąk** w gniazda modułu podczas ruchu.
-6. Po zakończeniu: wyłącz tryby, **kluczyk → PRODUKCJA**, zamknij osłonę, **HOME**.
+2. **Kluczyk → PRZEBRAJANIE** (X4, bypass B4 w Pilz).
+3. Otwórz osłonę — panel przechodzi na **BS6**.
+4. Postępuj wg instrukcji na ekranie: **GÓRA/LEWO**, **DÓŁ/PRAWO**, jog transportu.
+5. **Nie wkładaj rąk** w gniazda podczas ruchu.
+6. **Kluczyk → PRODUKCJA**, zamknij osłonę, **HOME**.
 
 ---
 

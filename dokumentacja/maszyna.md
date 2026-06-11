@@ -33,13 +33,11 @@ Film z linii: [media/VID_20251104_132106 (1).mp4](<../media/VID_20251104_132106 
    - **B1 (X1)** — liczenie słoików wjeżdżających do modułu,
    - **B2 (X2)** — czujnik bazowania modułu (DOG serwo),
    - **B3 (X3)** — czujnik na wyjściu: mierzy czas zasłonięcia przez przechodzący słoik; zasłonięty dłużej niż R8 → pauza (linia nie nadąża),
-   - **B4** — czujnik magnetyczny osłony XCSZC7902, spięty w obwód bezpieczeństwa
-     Pilz (nie w wejście PLC; X4 pozostaje niewykorzystane).
-5. **Obwód bezpieczeństwa** — E-stop (S1) + czujnik osłony (B4) + **przełącznik
-   serwisowy z kluczykiem** → Pilz PNOZ X7, przycisk RESET obwodu (S2).
-   - **Produkcja:** B4 w torze — osłona musi być zamknięta.
-   - **Serwis:** kluczyk pomija B4 — praca przy otwartej osłonie (przezbrajanie).
-   E-stop aktywny w obu pozycjach. Status obwodu na wejście PLC **X0**.
+   - **B4** — czujnik osłony (obwód Pilz); **kluczyk:** NC→Pilz, NO→**X4** (przezbrajanie).
+5. **Obwód bezpieczeństwa** — E-stop, B4, kluczyk → Pilz PNOZ X7, RESET S2, **X0** do PLC.
+   - **Produkcja (X4=OFF):** osłona zamknięta; ekran **BS3** — serwis (**R14**).
+   - **Przezbrajanie (X4=ON):** bypass B4; ekran **BS6** — **R11**, obrót ±90°, jog.
+   E-stop aktywny w obu pozycjach klucza.
 
 Schemat elektryczny: [schemat_elektryczny/SKO.pdf](../schemat_elektryczny/SKO.pdf).
 

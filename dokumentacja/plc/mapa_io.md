@@ -16,7 +16,7 @@ Pozostałości po starszych wersjach — na końcu dokumentu.
 | X1 | SENSOR_B1 | Czujnik liczenia słoików (wejście do modułu) | N0023 — zliczanie na zboczu **opadającym** |
 | X2 | SENSOR_B2 | Wejście DOG bazowania serwo | Tylko w konfiguracji tabeli parametrów serwo ([serwo.md](serwo.md)) — nie występuje w drabince |
 | X3 | SENSOR_B3 | Czujnik na wyjściu — czas zasłonięcia przez słoik | N0010–N0011 — pauza M403 gdy zasłonięty > R8 × 0,01 s |
-| X4 | SENSOR_B4 | — | **Nieużywane**; fizyczny czujnik B4 (osłona) jest w obwodzie Pilz, nie na X4 |
+| X4 | KEY_PRZEBRAJ | Styk **NO** kluczyka (ON = **przezbrajanie**, nie serwis) | M330, BS6, M343/M344 |
 
 ## Wyjścia fizyczne
 
@@ -116,7 +116,7 @@ do wyczyszczenia w WinProLadder przy najbliższej edycji:
 - **R:** R524, R1100, R1120, R1507 (R1410/R1411 mają stare komentarze, ale leżą
   w obszarze tabeli ROTATE — komentarz mylący, obszar zajęty przez Table3)
 - **D:** D100, D200–D204
-- **X/Y:** X4, Y5 (fizycznie podłączone wg schematu, programowo nieobsługiwane)
+- **X/Y:** Y5 (nieużywane w bieżącym programie)
 
 Stare komentarze typu „R1400 = Opakowania w partii", „C1 = Licznik opakowań",
 „T5 = Timeout transportu" opisują **poprzedni program** i nie mają związku

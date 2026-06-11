@@ -36,7 +36,7 @@
 | Panel HMI | FATEK P2043NA / P2043EA, 4,3", dotyk |
 | Oprogramowanie | WinProLadder + FvDesigner |
 | Bezpieczeństwo | Pilz PNOZ X7 774059, 24 V AC/DC |
-| Kluczyk serwisowy | W obwodzie Pilz (PRODUKCJA / SERWIS) |
+| Kluczyk | NC → Pilz; NO → **X4** (przezbrajanie → BS6) |
 
 ---
 

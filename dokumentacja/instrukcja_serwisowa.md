@@ -74,31 +74,47 @@ Zasłonięcie dłuższe niż R8 × 0,01 s uruchamia pauzę M403 (linia odbiorcza
 | Timeout bazowania [×0,1 s] | R9 | 300 |
 | Timeout obrotu [×0,1 s] | R10 | 100 |
 
-### 4.3 Przezbrajanie (ekran SERWIS)
+### 4.3 Obrot serwisowy (ekran SERWIS)
 
-| Parametr | Adres | Domyślnie |
-|----------|-------|-----------|
-| Prędkość obrotu | R11 | 500 |
-| Przyspieszenie | R12 | 60000 |
-| Timeout [×0,1 s] | R13 | 600 |
+| Parametr | Adres | Domyślnie | Zakres | Warunek |
+|----------|-------|-----------|--------|---------|
+| Prędkość serwisowa | R14 | 4000 | 500–15000 | X4=OFF, osłona zamknięta |
+| Prędkość przezbrajania | R11 | 500 | 50–2000 | X4=ON (klucz SERWIS) |
+| Przyspieszenie przezbraj. | R12 | 60000 | 10000–60000 | X4=ON |
+| Timeout przezbraj. [×0,1 s] | R13 | 600 | 100–3600 | X4=ON |
 
 Szczegóły osi: [plc/serwo.md](plc/serwo.md). Obrót produkcyjny: **90°** (−25000 imp,
 przekładnia 10:1).
 
 ---
 
-## 5. Tryb serwisowy i przezbrajanie
+## 5. Tryb serwisowy (BS3) i przezbrajanie (BS6)
 
 Procedura operatorska: [instrukcja_obslugi.md](instrukcja_obslugi.md) §8.
 
-**Serwis (M320):** jog transportu M340, przedmuch M341, obrót M342, HOME M310.
-Enable: S1, X0, M470 (obrót).
+### Serwis — wejście na ekran BS3
 
-**Przezbrajanie (M323):** tylko M343 (powolny obrót), transport jog zablokowany.
-Kluczyk Pilz w SERWIS.
+**M320** włącza się przy wejściu na BS3 (M329 = M320·S1·X0·/X4). **Bez kluczyka**,
+osłona zamknięta. Trzy prędkości obrotu: produkcja **R1403**, serwis **R14**, przezbrajanie **R11**.
 
-Wdrożenie w PLC/HMI: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md),
-[hmi_wdrozenie.md](hmi_wdrozenie.md) — dokumentacja wykonawcy.
+| Funkcja | Adres |
+|---------|-------|
+| Jog transportu | M340 |
+| Przedmuch | M341 |
+| Obrót +90° | M342 (R14) |
+| HOME | M310 |
+
+### Przezbrajanie — klucz X4 + ekran BS6
+
+Klucz **PRZEBRAJANIE** → **M330** (= X4), panel **BS6** (instrukcja, przyciski obrotu, jog).
+
+| Funkcja | Adres |
+|---------|-------|
+| Góra / lewo +90° | M343 (R11) |
+| Dół / prawo −90° | M344 (R11) |
+| Jog napędów | M340 |
+
+Wdrożenie: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md), [hmi_wdrozenie.md](hmi_wdrozenie.md).
 
 ---
 
@@ -106,7 +122,7 @@ Wdrożenie w PLC/HMI: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md)
 
 | Objaw | Możliwa przyczyna | Działanie |
 |-------|-------------------|-----------|
-| Brak X0 (alarm bezpieczeństwa) | E-stop, osłona, kluczyk PRODUKCJA + otwarta osłona | RESET Pilz, zamknij osłonę / kluczyk SERWIS |
+| Brak X0 | E-stop, osłona przy X4=OFF, klucz PRODUKCJA + otwarta osłona | RESET Pilz, zamknij osłonę / klucz PRZEBRAJANIE |
 | HOME nie kończy | B2 (DOG) luźny, moduł zablokowany | Regulacja czujnika, mechanika |
 | Obrót nie kończy / timeout | Zablokowanie, błąd SS86D | Alarm na panelu, sprawdź ALM+ sterownika |
 | C0 nie rośnie | M420 OFF, brak impulsów B1, M403 | Włącz Liczenie, regulacja B1 |
@@ -123,7 +139,7 @@ Wdrożenie w PLC/HMI: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md)
 
 Średnice słoików: [srednice_slokow.txt](srednice_slokow.txt).
 
-1. Kluczyk SERWIS, tryb przezbrajania, powolny obrót do pozycji serwisowej.
+1. Klucz **PRZEBRAJANIE** (X4), ekran **BS6**, obrót M343/M344, jog M340.
 2. Demontaż tulei / prowadnic (wg rysunku — uzupełnić numer rysunku: _________).
 3. Montaż zestawu na docelowy format, kontrola wymiarowa.
 4. Kluczyk PRODUKCJA, HOME, próba z pustym modułem, potem z słoikami.
