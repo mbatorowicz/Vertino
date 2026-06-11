@@ -83,13 +83,15 @@ przy 10000 imp/obr silnika).
 | Bazowanie DRVZ / dojazd | R1303, R1312 | 500–10000 Hz | program HOME — **ustawienie BS3** |
 
 **R11 (50–2000 Hz)** — prędkość obrotu modułu w trybie przezbrajania (BS6).
-Ustawiana na **BS3** przez serwis; na BS6 tylko odczyt podczas wymiany tulei.
+Ustawiana na **BS3** przez serwis. Służy do **regulacji czterech tuneli** (blachy +
+zaciski mimośrodowe): po dopasowaniu jednego tunelu operator obraca moduł o 90°
+i reguluje kolejny tunel pod rozmiar opakowań ([srednice_slokow.txt](srednice_slokow.txt)).
 
 ---
 
 ## 7. Formaty słoików
 
-Obsługiwane średnice (tuleje modułu): patrz [srednice_slokow.txt](srednice_slokow.txt).
+Obsługiwane formaty opakowań (regulacja tuneli): patrz [srednice_slokow.txt](srednice_slokow.txt).
 
 | Pojemność | Średnica [mm] | Wysokość / uwagi [mm] |
 |-----------|---------------|------------------------|

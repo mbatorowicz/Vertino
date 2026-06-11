@@ -94,9 +94,10 @@ Przycisk RESET (S2)
 1. **STOP** produkcji.
 2. **Kluczyk → PRZEBRAJANIE** (X4, bypass B4 w Pilz).
 3. Otwórz osłonę — panel przechodzi na **BS6**.
-4. Postępuj wg instrukcji na ekranie: **GÓRA/LEWO**, **DÓŁ/PRAWO**, jog transportu.
-5. **Nie wkładaj rąk** w gniazda podczas ruchu.
-6. **Kluczyk → PRODUKCJA**, zamknij osłonę, **HOME**.
+4. Reguluj **blachy tunelu** (zaciski mimośrodowe) w pozycji roboczej.
+5. **Obrót +90°** (M343) — przejście do kolejnego tunelu; powtórz dla wszystkich 4.
+6. **Nie wkładaj rąk** w gniazda podczas ruchu obrotu modułu.
+7. **Kluczyk → PRODUKCJA**, zamknij osłonę, **HOME**.
 
 ---
 

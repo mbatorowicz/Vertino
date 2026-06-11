@@ -200,12 +200,17 @@ Utwórz: `Screen → New` → nazwa **BS6**, tytuł **PRZEBRAJANIE**.
 ### 5.1 Instrukcja (Text, duży blok)
 
 ```
-PRZEBRAJANIE — wymiana tulei / formatu słoika
+PRZEBRAJANIE — regulacja tuneli (format opakowań)
+Moduł ma 4 tunele — blachy tworzące przewód dla butelek/słoików.
+Szerokość tunelu: zaciski mimośrodowe (regulacja ręczna).
+
 • Klucz w pozycji PRZEBRAJANIA — osłona może być otwarta.
-• Obracaj moduł przyciskami GÓRA/LEWO i DÓŁ/PRAWO (+90° / −90°).
-• Jog transportu — podaj słoiki do modułu bez wchodzenia w strefę ruchu.
-• NIE wkładaj rąk w gniazda podczas obrotu.
-• Po wymianie: klucz → PRODUKCJA, zamknij osłonę, HOME, START.
+• Dopasuj blachy bieżącego tunelu do docelowego formatu.
+• OBRÓT +90° (GÓRA/LEWO) — moduł przechodzi do kolejnego tunelu.
+• Powtórz regulację dla pozostałych trzech tuneli.
+• Jog transportu — opcjonalnie, bez wchodzenia w strefę ruchu obrotu.
+• NIE wkładaj rąk w gniazda podczas obrotu modułu.
+• Po zakończeniu: klucz → PRODUKCJA, zamknij osłonę, HOME, START.
 ```
 
 ### 5.2 Elementy BS6

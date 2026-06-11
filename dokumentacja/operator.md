@@ -30,7 +30,8 @@ Tabela alarmów: [instrukcja_obslugi.md](instrukcja_obslugi.md) §9.
 
 ## Przezbrajanie (BS6)
 
-Klucz **PRZEBRAJANIE** (X4) → ekran BS6: M343/M344 (±90°, R11), jog M340.
+Klucz **PRZEBRAJANIE** (X4) → ekran BS6. Moduł ma **4 tunele** (blachy +
+zaciski mimośrodowe): dopasuj tunel → **obrót +90°** (M343) → kolejny tunel.
 Procedura: [instrukcja_obslugi.md](instrukcja_obslugi.md) §8.
 
 ## Serwis (BS3)

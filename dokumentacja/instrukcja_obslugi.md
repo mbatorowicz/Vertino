@@ -131,16 +131,19 @@ lub prędkości linii odbiorczej).
 
 ---
 
-## 8. Przezbrajanie (zmiana formatu słoika)
+## 8. Przezbrajanie (regulacja tuneli na format opakowań)
 
-Wymiana tulei / prowadnic. **Tylko personel serwisowy z kluczem.**
+Moduł ma **4 tunele** — każdy to para **blach** tworzących przewód dla butelek/słoików.
+Szerokość tunelu reguluje się **zaciskami mimośrodowymi**. **Tylko personel serwisowy
+z kluczem.**
 
 1. **STOP** maszyny.
-2. **Kluczyk → PRZEBRAJANIE** (X4) — panel automatycznie na ekranie **BS6**.
-3. Otwórz osłonę; postępuj wg **instrukcji na ekranie**.
-4. **GÓRA / LEWO** (M343) i **DÓŁ / PRAWO** (M344) — obrót modułu o ±90° (R11).
-5. **Jog napędów** (M340) — podawanie słoików bez wchodzenia w strefę ruchu.
-6. Wymień elementy ([srednice_slokow.txt](srednice_slokow.txt)).
+2. **Kluczyk → PRZEBRAJANIE** (X4) — panel na ekranie **BS6**.
+3. Otwórz osłonę; postępuj wg instrukcji na ekranie.
+4. **Dopasuj pierwszy tunel** (blachy, zaciski mimośrodowe) do docelowego formatu
+   ([srednice_slokow.txt](srednice_slokow.txt)).
+5. **Obrót +90°** (M343) — moduł ustawia **kolejny tunel** w pozycji roboczej.
+6. Powtórz regulację dla **pozostałych trzech tuneli** (łącznie 4 × 90° = pełny obrót).
 7. **Kluczyk → PRODUKCJA**, zamknij osłonę, **HOME** → **START** — próba jałowa.
 
 ### Serwis bez klucza (ekran BS3)

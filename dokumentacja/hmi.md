@@ -43,7 +43,7 @@ Pełna tabela adresów M300–M344, S1–S13, alarmy M530–M535: [hmi_wdrozenie
 | **BS1** RUN | operator | produkcja, R6, START/STOP |
 | **BS2** SETUP | hasło | R7, R8, R9/R10, offset R1221, M305 |
 | **BS3** SERWIS | hasło | **wszystkie prędkości**, jog, M342 (R14) |
-| **BS6** PRZEBRAJANIE | auto X4 | instrukcja, M343/M344, jog |
+| **BS6** PRZEBRAJANIE | auto X4 | regulacja 4 tuneli (blachy), M343 (+90°), jog |
 | **BS4** ALARMY | przy S3 | latch M530–M535 |
 
 ---

@@ -268,8 +268,9 @@ Bazowanie — M310 (istnieje). Jog transportu celowo omija M403 (B3).
 
 ## R4 — Kluczyk przezbrajania, ekran BS6, trzy prędkości obrotu
 
-**Cel:** wymiana tulei / prowadnic przy **otwartej osłonie**. Kluczyk sygnalizuje
-**tryb przezbrajania** (nie tryb serwisowy). Tryb serwisowy to osobny ekran **BS3**.
+**Cel:** **regulacja czterech tuneli** (blachy + zaciski mimośrodowe) na format
+opakowań przy **otwartej osłonie**. Kluczyk sygnalizuje **tryb przezbrajania**
+(nie tryb serwisowy). Tryb serwisowy to osobny ekran **BS3**.
 
 ### Trzy prędkości obrotu modułu
 
@@ -297,8 +298,10 @@ przy X4↑ lub stała widoczność z wymuszeniem nawigacji).
 
 1. **Instrukcja** (tekst statyczny):
    - klucz w pozycji przezbrajania, osłona może być otwarta,
-   - obracaj moduł krokami, nie wkładaj rąk w gniazda podczas ruchu,
-   - po wymianie: klucz → produkcja, zamknij osłonę, HOME.
+   - dopasuj blachy bieżącego tunelu (zaciski mimośrodowe),
+   - **obrót +90°** (M343) → kolejny tunel; powtórz dla wszystkich 4,
+   - nie wkładaj rąk w gniazda podczas ruchu obrotu,
+   - po regulacji: klucz → produkcja, zamknij osłonę, HOME.
 2. **Przyciski obrotu modułu** (R11, R12, R13):
    - **GÓRA / LEWO** — M343 (+90°),
    - **DÓŁ / PRAWO** — M344 (−90°; ten sam program serwo z **+25000** imp zamiast −25000).
@@ -356,7 +359,8 @@ OUT   M330
 jog M340, przedmuch M341, obrót M342 (R14), HOME.
 
 **Przezbrajanie (BS6):** STOP → klucz PRZEBRAJANIE (X4) → panel **BS6** →
-obrót M343/M344, jog M340 → klucz PRODUKCJA, zamknij osłonę, HOME.
+regulacja blach tunelu → obrót M343 (+90°) między tunelami, jog M340 opcjonalnie →
+klucz PRODUKCJA, zamknij osłonę, HOME.
 
 > R11=500 ≈ 8× wolniej niż R14=4000. Cel: 90° w 15–30 s.
 

@@ -22,11 +22,13 @@ Film z linii: [media/VID_20251104_132106 (1).mp4](<../media/VID_20251104_132106 
    obrotowy SOB-11), prowadzone między napędzanymi elementami transportu.
    Napędy załączane wyjściem **Y1** (silniki krokowe ze sterownikami SH-D08R —
    karta katalogowa: [referencje/napedy/SH-D08R.pdf](../referencje/napedy/SH-D08R.pdf)).
-2. **Moduł obrotowy (odwracający)** — dwie tarcze z gniazdami na słoiki, napęd
+2. **Moduł obrotowy (odwracający)** — dwie tarcze z gniazdami na słoiki/butelki, napęd
    step-servo iCAN 57BLF-1830NBB (188 W, z enkoderem) ze sterownikiem SS86D,
    przekładnia 10:1, sterowany impulsowo z PLC (PSO1: Y2/Y3).
-   Każda partia = **obrót o 90°**; po dwóch krokach słoiki są odwrócone dnem
-   do góry w strefie przedmuchu, po czterech — wracają na tor wyjściowy.
+   **Cztery tunele** — pary **blach** tworzących przewód dla opakowań; szerokość
+   tunelu reguluje się **zaciskami mimośrodowymi** (przezbrajanie na format).
+   Każda partia = **obrót o 90°** (kolejny tunel); po dwóch krokach słoiki odwrócone
+   dnem do góry w strefie przedmuchu, po czterech — wracają na tor wyjściowy.
 3. **Przedmuch** — zawór pneumatyczny **Y4** podaje powietrze w strefie modułu;
    odwrócone słoiki są przedmuchiwane (zanieczyszczenia wypadają w dół).
 4. **Czujniki:**

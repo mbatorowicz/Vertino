@@ -13,7 +13,7 @@ Dokumentacja techniczna programu: [plc/program.md](plc/program.md),
 | Poziom | Zakres |
 |--------|--------|
 | Operator | Patrz [instrukcja_obslugi.md](instrukcja_obslugi.md) |
-| Serwis I | Konserwacja, przezbrajanie, regulacja czujników, wymiana tulei |
+| Serwis I | Konserwacja, przezbrajanie (regulacja tuneli), regulacja czujników |
 | Serwis II | Program PLC/HMI, parametry serwo, diagnostyka napędów |
 | Elektryk | Schemat [SKO.pdf](../schemat_elektryczny/SKO.pdf), obwód Pilz |
 
@@ -23,7 +23,7 @@ Dokumentacja techniczna programu: [plc/program.md](plc/program.md),
 
 | Czynność | Interwał | Uwagi |
 |----------|----------|-------|
-| Kontrola wytarcia tulei / gniazd modułu | 500 h / 3 mies. | Wymiana wg zużycia |
+| Kontrola wytarcia blach tunelu / gniazd modułu | 500 h / 3 mies. | Regulacja / wymiana wg zużycia |
 | Smarowanie prowadnic / łożysk (wg karty) | wg producenta | Patrz dane techniczne |
 | Filtr/regulator powietrza | wg klienta | Przed zaworem Y4 |
 | Sprawdzenie dokręcenia śrub modułu obrotowego | 6 mies. | Po wibracjach |
@@ -109,12 +109,14 @@ osłona zamknięta. Trzy prędkości obrotu: produkcja **R1403**, serwis **R14**
 
 ### Przezbrajanie — klucz X4 + ekran BS6
 
-Klucz **PRZEBRAJANIE** → **M330** (= X4), panel **BS6** (instrukcja, przyciski obrotu, jog).
+Moduł: **4 tunele** (blachy + zaciski mimośrodowe). Po regulacji jednego tunelu
+operator klika **obrót +90°** (M343) — moduł przechodzi do kolejnego tunelu;
+powtarza regulację dla wszystkich czterech. R11 ustawiane na **BS3**.
 
 | Funkcja | Adres |
 |---------|-------|
-| Góra / lewo +90° | M343 (R11) |
-| Dół / prawo −90° | M344 (R11) |
+| Obrót do kolejnego tunelu (+90°) | M343 (R11) |
+| Obrót wstecz (−90°) | M344 |
 | Jog napędów | M340 |
 
 Wdrożenie: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md), [hmi_wdrozenie.md](hmi_wdrozenie.md).
@@ -138,14 +140,15 @@ Wdrożenie: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md), [hmi_wdr
 
 ---
 
-## 7. Wymiana elementów modułu (przezbrajanie)
+## 7. Przezbrajanie — regulacja tuneli (blachy)
 
-Średnice słoików: [srednice_slokow.txt](srednice_slokow.txt).
+Formaty opakowań: [srednice_slokow.txt](srednice_slokow.txt).
 
-1. Klucz **PRZEBRAJANIE** (X4), ekran **BS6**, obrót M343/M344, jog M340.
-2. Demontaż tulei / prowadnic (wg rysunku — uzupełnić numer rysunku: _________).
-3. Montaż zestawu na docelowy format, kontrola wymiarowa.
-4. Kluczyk PRODUKCJA, HOME, próba z pustym modułem, potem z słoikami.
+1. Klucz **PRZEBRAJANIE** (X4) → ekran **BS6**.
+2. Reguluj **blachy** pierwszego tunelu (**zaciski mimośrodowe**) pod średnicę opakowań.
+3. **Obrót +90°** (M343) — następny tunel w pozycji roboczej.
+4. Powtórz kroki 2–3 dla **pozostałych trzech tuneli**.
+5. Kluczyk PRODUKCJA, zamknij osłonę, **HOME**, próba z pustymi opakowaniami, potem produkcja.
 
 ---
 
@@ -165,7 +168,7 @@ Po wgraniu: HOME, test obrotu, test liczenia, protokół punktów z [odbior_uruc
 
 | Lp. | Opis | Nr katalogowy | Ilość zalecana |
 |-----|------|---------------|----------------|
-| 1 | Tuleje gniazd modułu (zestawy per średnica) | | |
+| 1 | Blachy tunelu / zaciski mimośrodowe (wg formatu) | | |
 | 2 | Czujnik B1/B3 (typ) | | 1 |
 | 3 | Elementy quick-connect pneumatyki | | |
 | 4 | Bezpiecznik F01 10 A | | 2 |
