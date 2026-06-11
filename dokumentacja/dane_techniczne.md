@@ -85,28 +85,11 @@ przy 10000 imp/obr silnika).
 **R11 (50–2000 Hz)** — prędkość obrotu modułu w trybie przezbrajania (BS6).
 Ustawiana na **BS3** przez serwis; na **BS6** tylko odczyt podczas **regulacji tuneli**
 (blachy + zaciski mimośrodowe): po dopasowaniu jednego tunelu operator obraca moduł o 90°
-i reguluje kolejny tunel pod rozmiar opakowań ([srednice_slokow.txt](srednice_slokow.txt)).
+i reguluje kolejny tunel pod rozmiar opakowań.
 
 ---
 
-## 7. Formaty słoików
-
-Obsługiwane formaty opakowań (regulacja tuneli): patrz [srednice_slokow.txt](srednice_slokow.txt).
-
-| Pojemność | Średnica [mm] | Wysokość / uwagi [mm] |
-|-----------|---------------|------------------------|
-| 75 ml | 46 | 35 |
-| 100 ml | 51 | 35 |
-| 120 ml | 54 | 35–41 |
-| 150 ml | 57 | 41 |
-| 200 ml | 63 | 41 |
-| 250 ml | 67 | 41 |
-| 500 ml | 82 | 50 |
-| 750 ml | 93 | 59 |
-
----
-
-## 8. Wymiary i masa
+## 7. Wymiary i masa
 
 | | |
 |---|---|
@@ -116,7 +99,7 @@ Obsługiwane formaty opakowań (regulacja tuneli): patrz [srednice_slokow.txt](s
 
 ---
 
-## 9. Warunki otoczenia
+## 8. Warunki otoczenia
 
 | Parametr | Wartość |
 |----------|---------|
@@ -126,7 +109,7 @@ Obsługiwane formaty opakowań (regulacja tuneli): patrz [srednice_slokow.txt](s
 
 ---
 
-## 10. Dokumenty powiązane
+## 9. Dokumenty powiązane
 
 - Schemat: [schemat_elektryczny/SKO.pdf](../schemat_elektryczny/SKO.pdf)
 - Program PLC: [plc/SKO-Program.pdf](../plc/SKO-Program.pdf)

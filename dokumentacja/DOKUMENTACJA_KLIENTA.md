@@ -22,7 +22,6 @@ Poniższy zestaw stanowi **komplet dokumentacji użytkowej i serwisowej** przeka
 | 4 | **Instrukcja serwisowa** | [instrukcja_serwisowa.md](instrukcja_serwisowa.md) | Serwis |
 | 5 | **Dane techniczne** | [dane_techniczne.md](dane_techniczne.md) | Serwis, utrzymanie ruchu |
 | 6 | **Protokół odbioru i uruchomienia** | [odbior_uruchomienie.md](odbior_uruchomienie.md) | Klient + wykonawca |
-| 7 | **Średnice obsługiwanych słoików** | [srednice_slokow.txt](srednice_slokow.txt) | Operator |
 
 ### Załączniki techniczne (PDF / nośnik USB)
 
@@ -70,7 +69,6 @@ Segregator „Stacja kontroli opakowań SKO”
 ├── 4. Instrukcja serwisowa
 ├── 5. Dane techniczne
 ├── 6. Protokół odbioru (podpisany)
-├── 7. Średnice słoików
 └── Kieszeń: schemat elektryczny (A4/A3)
 ```
 

@@ -200,7 +200,7 @@ Utwórz: `Screen → New` → nazwa **BS6**, tytuł **PRZEBRAJANIE**.
 ### 5.1 Instrukcja (Text, duży blok)
 
 ```
-PRZEBRAJANIE — regulacja tuneli (format opakowań)
+PRZEBRAJANIE — regulacja tuneli
 Moduł ma 4 tunele — blachy tworzące przewód dla butelek/słoików.
 Szerokość tunelu: zaciski mimośrodowe (regulacja ręczna).
 

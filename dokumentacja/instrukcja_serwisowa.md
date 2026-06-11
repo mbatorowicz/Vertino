@@ -142,8 +142,6 @@ Wdrożenie: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md), [hmi_wdr
 
 ## 7. Przezbrajanie — regulacja tuneli (blachy)
 
-Formaty opakowań: [srednice_slokow.txt](srednice_slokow.txt).
-
 1. Klucz **PRZEBRAJANIE** (X4) → ekran **BS6**.
 2. Reguluj **blachy** pierwszego tunelu (**zaciski mimośrodowe**) pod średnicę opakowań.
 3. **Obrót +90°** (M343) — następny tunel w pozycji roboczej.

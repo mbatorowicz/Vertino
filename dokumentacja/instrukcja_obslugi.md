@@ -82,7 +82,7 @@ ruchy ręczne — patrz rozdział 8 i [instrukcja_serwisowa.md](instrukcja_serwi
    bezpieczeństwa tego wymaga.
 7. Na panelu: lampka **READY**, **HOME_OK** świeci.
 8. **Liczenie** i **Powietrze** — włączone.
-9. Na ekranie głównym **kliknij wartość ilości partii** (licznik `X / Y`, prawa liczba) i ustaw liczbę słoików przed obrotem modułu (typowo 4–12; formaty: [srednice_slokow.txt](srednice_slokow.txt)).
+9. Na ekranie głównym **kliknij wartość ilości partii** (licznik `X / Y`, prawa liczba) i ustaw liczbę słoików przed obrotem modułu (typowo 4–12).
 
 ---
 
@@ -131,7 +131,7 @@ lub prędkości linii odbiorczej).
 
 ---
 
-## 8. Przezbrajanie (regulacja tuneli na format opakowań)
+## 8. Przezbrajanie (regulacja tuneli)
 
 Moduł ma **4 tunele** — każdy to para **blach** tworzących przewód dla butelek/słoików.
 Szerokość tunelu reguluje się **zaciskami mimośrodowymi**. **Tylko personel serwisowy
@@ -140,8 +140,7 @@ z kluczem.**
 1. **STOP** maszyny.
 2. **Kluczyk → PRZEBRAJANIE** (X4) — panel na ekranie **BS6**.
 3. Otwórz osłonę; postępuj wg instrukcji na ekranie.
-4. **Dopasuj pierwszy tunel** (blachy, zaciski mimośrodowe) do docelowego formatu
-   ([srednice_slokow.txt](srednice_slokow.txt)).
+4. **Dopasuj pierwszy tunel** (blachy, zaciski mimośrodowe) do docelowego rozmiaru opakowań.
 5. **Obrót +90°** (M343) — moduł ustawia **kolejny tunel** w pozycji roboczej.
 6. Powtórz regulację dla **pozostałych trzech tuneli** (łącznie 4 × 90° = pełny obrót).
 7. **Kluczyk → PRODUKCJA**, zamknij osłonę, **HOME** → **START** — próba jałowa.
@@ -196,7 +195,6 @@ Pełna konserwacja: [instrukcja_serwisowa.md](instrukcja_serwisowa.md).
 
 - [bezpieczenstwo.md](bezpieczenstwo.md)
 - [maszyna.md](maszyna.md)
-- [srednice_slokow.txt](srednice_slokow.txt)
 - [dane_techniczne.md](dane_techniczne.md)
 
 ---

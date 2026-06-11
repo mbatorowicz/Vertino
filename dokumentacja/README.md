@@ -14,7 +14,6 @@
 | Instrukcja serwisowa | [instrukcja_serwisowa.md](instrukcja_serwisowa.md) |
 | Dane techniczne | [dane_techniczne.md](dane_techniczne.md) |
 | Protokół odbioru | [odbior_uruchomienie.md](odbior_uruchomienie.md) |
-| Średnice słoików | [srednice_slokow.txt](srednice_slokow.txt) |
 
 Skrót dla operatora: [operator.md](operator.md).
 

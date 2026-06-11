@@ -82,8 +82,6 @@ Liczenie nie jest tracone — C0 zachowuje wartość.
 | Czas przejazdu słoika przy B3 | R8 | 0–5 s (× 0,01 s) |
 | Licznik bieżący | C0 (kopia w R100) | Zerowany przy każdym wejściu w liczenie |
 
-Średnice obsługiwanych słoików: [srednice_slokow.txt](srednice_slokow.txt).
-
 ---
 
 **© CNC Solutions — Michał Batorowicz**

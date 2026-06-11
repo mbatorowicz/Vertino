@@ -85,7 +85,6 @@ Odbiór obejmuje:
 | Schemat elektryczny (PDF) | ☐ |
 | Wydruk programu PLC (PDF) | ☐ |
 | USB (HMI + kopie projektów) | ☐ |
-| Średnice słoików | ☐ |
 
 ---
 
