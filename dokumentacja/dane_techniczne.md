@@ -69,11 +69,21 @@ przy 10000 imp/obr silnika).
 
 | Parametr | Zakres |
 |----------|--------|
-| Ilość słoików w partii | 1–100 (typ. 4–12) |
-| Opóźnienie po partii | 0–300 s (R7 × 0,01 s) |
-| Czas przejazdu słoika przy B3 | 0,01–300 s (R8 × 0,01 s) |
-| Prędkość obrotu | 500–20000 (jednostki serwo) |
-| Prędkość przezbrajania | 50–2000 |
+| Ilość słoików w partii (R6) | **1–20** (typ. 4–12) |
+| Opóźnienie po zliczeniu (R7) | **0–2 s** (rejestr 0–200, × 0,01 s) |
+| Czas przejazdu słoika przy B3 (R8) | **0–5 s** (rejestr 0–500, × 0,01 s) |
+
+### Prędkości obrotu modułu (osobno od procesu)
+
+| Tryb | Rejestr | Zakres | Znaczenie |
+|------|---------|--------|-----------|
+| Produkcja | R1403 | 500–20000 Hz | obrót w automacie — **ustawienie BS3** |
+| Serwis | R14 | 500–15000 Hz | obrót BS3 (osłona zamknięta) — **ustawienie BS3** |
+| Przezbrajanie | R11 | 50–2000 Hz | obrót BS6 — **ustawienie BS3** |
+| Bazowanie DRVZ / dojazd | R1303, R1312 | 500–10000 Hz | program HOME — **ustawienie BS3** |
+
+**R11 (50–2000 Hz)** — prędkość obrotu modułu w trybie przezbrajania (BS6).
+Ustawiana na **BS3** przez serwis; na BS6 tylko odczyt podczas wymiany tulei.
 
 ---
 

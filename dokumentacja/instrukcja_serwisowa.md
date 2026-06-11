@@ -55,33 +55,36 @@ Dokumentacja techniczna programu: [plc/program.md](plc/program.md),
 
 | Parametr | Adres PLC | Domyślnie | Zakres | Gdzie ustawia |
 |----------|-----------|-----------|--------|---------------|
-| Ilość w partii | R6 | 12 | 1–100 | **BS1** — operator (klik w cel licznika) |
-| Opóźnienie po partii [×0,01 s] | R7 | 12 | 0–30000 | BS2 (SETUP) |
-| Czas przejazdu słoika przy B3 [×0,01 s] | R8 | 12 | 1–30000 | BS2 (SETUP) |
+| Ilość w partii | R6 | 12 | 1–20 | **BS1** — operator (klik w cel licznika) |
+| Opóźnienie po zliczeniu | R7 | 120 (=1,2 s) | 0–200 (0–2 s) | BS2 (SETUP) |
+| Czas przejazdu słoika przy B3 | R8 | 120 (=1,2 s) | 0–500 (0–5 s) | BS2 (SETUP) |
 
 **R8:** czas, w którym pojedynczy słoik zasłania czujnik B3 przy normalnym przepływie.
 Zasłonięcie dłuższe niż R8 × 0,01 s uruchamia pauzę M403 (linia odbiorcza nie nadąża).
 
-### 4.2 Serwo modułu (SETUP / serwis)
+### 4.2 Prędkości obrotu modułu (ekran **BS3 SERWIS**)
+
+Wszystkie prędkości ustawia **serwis** na ekranie BS3 (hasło), nie operator.
+
+| Parametr | Adres | Domyślnie | Zakres |
+|----------|-------|-----------|--------|
+| Prędkość obrotu produkcyjna | R1403 | 9000 | 500–20000 Hz |
+| Prędkość obrotu serwisowa | R14 | 4000 | 500–15000 Hz |
+| Prędkość obrotu przezbrajania | R11 | 500 | 50–2000 Hz |
+| Przyspieszenie przezbrajania | R12 | 60000 | 10000–60000 |
+| Timeout obrotu przezbraj. [×0,1 s] | R13 | 600 | 100–3600 |
+| Prędkość bazowania (DRVZ) | R1303 | 5000 | 500–10000 Hz |
+| Prędkość dojazdu do 0 | R1312 | 5000 | 500–10000 Hz |
+
+### 4.3 Parametry osi (BS2 SETUP lub BS3)
 
 | Parametr | Adres | Uwagi |
 |----------|-------|-------|
-| Prędkość obrotu | R1403 | Od następnego obrotu |
-| Prędkość bazowania | R1303, R1312 | Program HOME |
 | Acc/dec | R1211 | Wymaga ZAPISZ PARAMETRY (M305) |
 | Creep | R1209 | Wymaga M305 |
 | Offset bazy | R1221 | Wymaga M305 + HOME |
 | Timeout bazowania [×0,1 s] | R9 | 300 |
 | Timeout obrotu [×0,1 s] | R10 | 100 |
-
-### 4.3 Obrot serwisowy (ekran SERWIS)
-
-| Parametr | Adres | Domyślnie | Zakres | Warunek |
-|----------|-------|-----------|--------|---------|
-| Prędkość serwisowa | R14 | 4000 | 500–15000 | X4=OFF, osłona zamknięta |
-| Prędkość przezbrajania | R11 | 500 | 50–2000 | X4=ON (klucz SERWIS) |
-| Przyspieszenie przezbraj. | R12 | 60000 | 10000–60000 | X4=ON |
-| Timeout przezbraj. [×0,1 s] | R13 | 600 | 100–3600 | X4=ON |
 
 Szczegóły osi: [plc/serwo.md](plc/serwo.md). Obrót produkcyjny: **90°** (−25000 imp,
 przekładnia 10:1).
@@ -127,7 +130,7 @@ Wdrożenie: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md), [hmi_wdr
 | Obrót nie kończy / timeout | Zablokowanie, błąd SS86D | Alarm na panelu, sprawdź ALM+ sterownika |
 | C0 nie rośnie | M420 OFF, brak impulsów B1, M403 | Włącz Liczenie, regulacja B1 |
 | Ciągła pauza B3 | R8 za małe lub linia odbiorcza nie nadąża | Zwiększ R8 (czas przejazdu słoika przy B3) lub przyspiesz odbiór |
-| Partia za krótka/długa | Złe R6 lub R7 | Skoryguj opóźnienie po partii |
+| Partia za krótka/długa | Złe R6 lub R7 | Skoryguj opóźnienie po zliczeniu |
 | Y4 bez przedmuchu | M421 OFF, M403, brak ciśnienia | Powietrze, zawór, PLC |
 | Y1 bez transportu | M403, awaria SH-D08R | Diagnostyka napędu |
 

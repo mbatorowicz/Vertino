@@ -73,7 +73,7 @@ BS1 ──[ALARM] lub auto S3 ──► BS4 ──[RESET/Wstecz]──► BS1
 | Lampka ALARM | SL | `@HB1:S3` | ON=czerwony, opcjonalnie miganie |
 | Lampka HOME_OK | SL | `@HB1:M470` | ON=zielony |
 | Licznik bieżący | ND Display | `@HB1:R100` | tylko odczyt, 0 miejsc |
-| Licznik cel partii | ND Input | `@HB1:R6` | **główna edycja operatora** — klik → popup; min=1 max=100 |
+| Licznik cel partii | ND Input | `@HB1:R6` | klik → popup; **min=1 max=20** |
 | Separator „/" | Text | — | między R100 a R6 |
 | Liczenie — lampka | SL | `@HB1:M420` | |
 | Liczenie — przełącznik | BB Toggle | `@HB1:M420` | domyślnie ON przy starcie produkcji |
@@ -116,20 +116,17 @@ Istniejące pola — **popraw etykiety** (zgodnie z PLC):
 
 | Etykieta na ekranie | Adres (już jest) | Min | Max | Domyślnie |
 |---------------------|------------------|-----|-----|-----------|
-| Opóźnienie po partii [×0,01 s] | `@HB1:R7` | 0 | 30000 | 12 |
-| Czas przejazdu słoika przy B3 [×0,01 s] | `@HB1:R8` | 1 | 30000 | 12 |
+| Opóźnienie po zliczeniu [×0,01 s] | `@HB1:R7` | 0 | **200** (0–2 s) | 120 |
+| Czas przejazdu słoika przy B3 [×0,01 s] | `@HB1:R8` | 0 | **500** (0–5 s) | 120 |
 | Offset bazy | `@HB1:R1221` | — | — | wg maszyny |
 
 **Nowe pola** (Numeric Input, każde z klawiaturą popup jak istniejące ND):
 
 | Etykieta | Adres | Typ | Min | Max | Domyślnie |
 |----------|-------|-----|-----|-----|-----------|
-| Ilość w partii [szt.] | `@HB1:R6` | 16-bit | 1 | 100 | 12 | opcjonalnie duplikat BS1 (serwis) |
+| Ilość w partii [szt.] | `@HB1:R6` | 16-bit | 1 | **20** | 12 |
 | Timeout bazowania [×0,1 s] | `@HB1:R9` | 16-bit | 50 | 6000 | 300 |
 | Timeout obrotu [×0,1 s] | `@HB1:R10` | 16-bit | 20 | 6000 | 100 |
-| Prędkość obrotu | `@HB1:R1403` | **32-bit INT** | 500 | 20000 | 9000 |
-| Prędkość bazowania DRVZ | `@HB1:R1303` | **32-bit INT** | 500 | 10000 | 5000 |
-| Prędkość dojazdu do 0 | `@HB1:R1312` | **32-bit INT** | 500 | 10000 | 5000 |
 | Przyspieszenie / hamowanie | `@HB1:R1211` | 16-bit | 1000 | 60000 | 20000 |
 | Creep bazowania | `@HB1:R1209` | 16-bit | 100 | 5000 | 2000 |
 
@@ -154,6 +151,9 @@ Istniejące pola — **popraw etykiety** (zgodnie z PLC):
 
 Utwórz: `Screen → New` → nazwa **BS3**, tytuł **SERWIS**.
 
+> **Wszystkie prędkości obrotu** (R1403, R14, R11, R1303, R1312, R12, R13) ustawia
+> serwis **tylko na BS3** — nie na BS2 ani BS6 (BS6: odczyt R11).
+
 **Właściwości ekranu BS3:**
 
 | Właściwość | Wartość |
@@ -170,6 +170,12 @@ Utwórz: `Screen → New` → nazwa **BS3**, tytuł **SERWIS**.
 | Tytuł | Text | — | „SERWIS" |
 | Lampka serwis aktywny | SL | `@HB1:M329` | odczyt |
 | Prędkość obrotu serwis. | ND Input | `@HB1:R14` | 32-bit, 500–15000, domyślnie 4000 |
+| Prędkość obrotu prod. | ND Input | `@HB1:R1403` | 32-bit, 500–20000, domyślnie 9000 |
+| Prędkość obrotu przezbraj. | ND Input | `@HB1:R11` | 32-bit, 50–2000, domyślnie 500 |
+| Przysp. przezbraj. | ND Input | `@HB1:R12` | 16-bit, 10000–60000 |
+| Timeout przezbraj. [×0,1 s] | ND Input | `@HB1:R13` | 16-bit, 100–3600 |
+| Prędk. bazowania DRVZ | ND Input | `@HB1:R1303` | 32-bit, 500–10000 |
+| Prędk. dojazdu do 0 | ND Input | `@HB1:R1312` | 32-bit, 500–10000 |
 | TRANSPORT JOG | BB | `@HB1:M340` | Set/Reset; Enable: M329 |
 | PRZEDMUCH | BB Toggle | `@HB1:M341` | M329 |
 | OBRÓT +90° | BB | `@HB1:M342` | impuls; M329, M470, NOT M431 |
@@ -207,8 +213,7 @@ PRZEBRAJANIE — wymiana tulei / formatu słoika
 | Element | Typ | Adres | Uwagi |
 |---------|-----|-------|-------|
 | Lampka PRZEBRAJANIE | SL | `@HB1:M330` | = X4 |
-| Prędkość obrotu | ND Input | `@HB1:R11` | 32-bit, 50–2000 |
-| Przysp. / Timeout | ND Input | `@HB1:R12`, `@HB1:R13` | |
+| Prędkość obrotu (odczyt) | ND Display | `@HB1:R11` | edycja tylko na **BS3** |
 | GÓRA / LEWO (+90°) | BB | `@HB1:M343` | impuls; M330, M470, NOT M431 |
 | DÓŁ / PRAWO (−90°) | BB | `@HB1:M344` | impuls; j.w. |
 | JOG TRANSPORTU | BB | `@HB1:M340` | Set/Reset; M330 |

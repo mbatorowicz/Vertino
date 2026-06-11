@@ -158,7 +158,7 @@ RST( )     M535
 Nowa sieć:
 
 ```
-|--[R6 > 0]--[R6 < 101]--( M539 )--|
+|--[R6 > 0]--[R6 < 21]--( M539 )--|
 ```
 
 ```
@@ -167,7 +167,7 @@ ORGF  171_.>
       Sb:  0
 ANDF  172_.<
       Sa:  R6
-      Sb:  101
+      Sb:  21
 OUT        M539
 ```
 
@@ -312,9 +312,9 @@ przy X4↑ lub stała widoczność z wymuszeniem nawigacji).
 
 | Rejestr | Domyślnie | Zakres | Ekran |
 |---------|-----------|--------|-------|
-| R1403 | 9000 | 500–20000 | BS2 — produkcja |
+| R1403 | 9000 | 500–20000 | BS3 — produkcja |
 | R14 | 4000 | 500–15000 | BS3 — serwis |
-| R11 | 500 | 50–2000 | BS6 — przezbrajanie |
+| R11 | 500 | 50–2000 | BS3 — przezbrajanie (używane na BS6) |
 | R12 | 60000 | 10000–60000 | BS6 |
 | R13 | 600 | 100–3600 | BS6 [× 0.1 s] |
 
@@ -465,42 +465,30 @@ Poniżej skrót zakresu zmian.
 - licznik partii D100 i czas cyklu R201 (× 0.1 s) — małe pola statusowe,
 - przycisk HOME odblokowany (M310 już obsłużone w PLC).
 
-## BS2 (SETUP) — rozbudowa
+## BS2 (SETUP) — parametry procesu i osi
 
-| Pole | Adres | Min/Max w obiekcie |
-|------|-------|--------------------|
-| Ilość w partii | R6 | 1–100 |
-| Opóźnienie po partii [×0.01 s] | R7 | 0–30000 |
-| Czas przejazdu słoika przy B3 [×0.01 s] | R8 | 1–30000 |
-| Timeout bazowania [×0.1 s] | R9 | 50–6000 |
-| Timeout obrotu [×0.1 s] | R10 | 20–6000 |
-| Prędkość obrotu | R1403 (32-bit) | 500–20000 |
-| Prędkość bazowania (DRVZ) | R1303 (32-bit) | 500–10000 |
-| Prędkość dojazdu do 0 | R1312 (32-bit) | 500–10000 |
-| Przyspieszenie/hamowanie | R1211 | 1000–60000 |
-| Creep bazowania | R1209 | 100–5000 |
-| Offset bazy | R1221 (32-bit) | wg maszyny |
-| ZAPISZ PARAMETRY (przycisk) | M305 | — |
+| Pole | Adres | Min/Max |
+|------|-------|---------|
+| Opóźnienie po zliczeniu [×0.01 s] | R7 | 0–200 (0–2 s) |
+| Czas przejazdu słoika przy B3 [×0.01 s] | R8 | 0–500 (0–5 s) |
+| Timeout bazowania / obrotu | R9, R10 | — |
+| Acc/dec, creep, offset | R1211, R1209, R1221 | M305 |
 
-Dostęp do BS2 zabezpieczyć hasłem (poziom użytkownika FvDesigner) —
-przynajmniej dla pól grupy B.
+## BS3 (SERWIS) — **wszystkie prędkości obrotu**
 
-## BS3 (SERWIS) — ekran serwisowy
+| Pole | Adres | Zakres |
+|------|-------|--------|
+| Prędkość produkcyjna | R1403 | 500–20000 Hz |
+| Prędkość serwisowa | R14 | 500–15000 Hz |
+| Prędkość przezbrajania | R11 | 50–2000 Hz |
+| Przysp. / timeout przezbraj. | R12, R13 | — |
+| Prędkości bazowania | R1303, R1312 | 500–10000 Hz |
 
-- **Wejście na ekran** → Set **M320**; wyjście → Reset M320 (M329 = M320·S1·X0·/X4),
-- **Prędkość obrotu serwisowa** (R14, 500–15000),
-- przycisk **OBRÓT +90°** (M342, R14) + lampka M431,
-- **TRANSPORT JOG** (M340), **PRZEDMUCH** (M341), **HOME** (M310),
-- zerowania M311/M312, podgląd diagnostyczny.
-- **Niedostępny gdy X4=ON** (klucz przezbrajania — wtedy BS6).
+Wejście → M320; M340/M341/M342 (R14); HOME; zerowania. Niedostępny gdy X4=ON.
 
-## BS6 (PRZEBRAJANIE) — ekran przezbrajania
+## BS6 (PRZEBRAJANIE)
 
-- **Automatyczne wejście** gdy X4=ON (kluczyk); wyjście gdy X4=OFF,
-- **Instrukcja** (tekst procedury wymiany tulei),
-- **GÓRA / LEWO** (M343, +90°, R11) i **DÓŁ / PRAWO** (M344, −90°, R11),
-- **JOG TRANSPORTU** (M340), opcjonalnie przedmuch (M341),
-- nastawy R11, R12, R13; lampki M330, M431, M536, X0.
+Auto przy X4; instrukcja; M343/M344 (używa R11 z BS3); jog M340; odczyt R11 (bez edycji).
 
 ## BS4 (ALARMY) — nowy ekran
 

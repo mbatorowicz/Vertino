@@ -39,7 +39,7 @@ Pozostałości po starszych wersjach — na końcu dokumentu.
 | S3 | ALARM | Alarm |
 | S10 | HOMING | Bazowanie |
 | S11 | LICZENIE | Transport + zliczanie |
-| S12 | OPÓŹNIENIE | Odczekanie T10 po partii |
+| S12 | OPÓŹNIENIE | Odczekanie T10 po zliczeniu (R7) |
 | S13 | OBRÓT | Obrót modułu |
 
 S0–S499 są **nieretentywne** — po zaniku zasilania maszyna wstaje bez aktywnego kroku.
@@ -81,7 +81,7 @@ ale w drabince są to styki **NO** — działają jako zezwolenia (ON = funkcja 
 
 | Adres | Baza | Nastawa | Opis |
 |-------|------|---------|------|
-| T10 | 0.01 s | **R7** | Opóźnienie po partii (S12) |
+| T10 | 0.01 s | **R7** | Opóźnienie po zliczeniu (S12) |
 | T30 | 0.01 s | **R8** | Próg czasu zasłonięcia czujnika B3 przez słoik |
 | C0 | 16-bit, retentywny | **R6** (porównanie) | Licznik sztuk w partii; zerowany przy wejściu w S11 i przy alarmie |
 
@@ -90,7 +90,7 @@ ale w drabince są to styki **NO** — działają jako zezwolenia (ON = funkcja 
 | Adres | Opis | Uwagi |
 |-------|------|-------|
 | R6 | Ilość sztuk w partii (cel C0) | Nastawa z **BS1** (klik operatora); musi być > 0 |
-| R7 | Opóźnienie po partii [× 0.01 s] | Nastawa z HMI (SETUP) |
+| R7 | Opóźnienie po zliczeniu [× 0.01 s] | Nastawa z HMI (BS2) |
 | R8 | Czas przejazdu słoika przy B3 [× 0.01 s] | Próg T30; dłuższe zasłonięcie X3 → M403 |
 | R100 | Kopia C0 dla HMI | Aktualizowana w S11 |
 | R1200–R1223 | Tabela parametrów serwo (Table1) | [serwo.md](serwo.md) |

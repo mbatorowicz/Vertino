@@ -2,111 +2,49 @@
 
 **Panel:** FATEK P2043NA/P2043EA (4.3", dotykowy) | **Projekt:** [hmi/SKO - Program 1.fpj](<../hmi/SKO%20-%20Program%201.fpj>) (FvDesigner)
 
-**Instrukcja wdrożenia krok po kroku (FvDesigner):** [hmi_wdrozenie.md](hmi_wdrozenie.md)
-
-Poniższe adresy wynikają z analizy programu PLC ([plc/program.md](plc/program.md)) oraz
-propozycji rozbudowy ([plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md)).
+**Instrukcja wdrożenia:** [hmi_wdrozenie.md](hmi_wdrozenie.md)
 
 ---
 
-## Trzy prędkości obrotu modułu
+## Trzy prędkości obrotu modułu (ustawienie **BS3 SERWIS**)
 
-| Tryb | Ekran | Rejestr | Typowo |
-|------|-------|---------|--------|
-| **Produkcja** | automat | R1403 | 9000 Hz |
-| **Serwis** | BS3 (wejście → M320) | R14 | 4000 Hz |
-| **Przezbrajanie** | BS6 (klucz X4 → M330) | R11 | 500 Hz |
+| Tryb | Rejestr | Typowo | Użycie |
+|------|---------|--------|--------|
+| **Produkcja** | R1403 | 9000 Hz | automat |
+| **Serwis** | R14 | 4000 Hz | BS3, osłona zamknięta |
+| **Przezbrajanie** | R11 | 500 Hz | BS6, klucz X4 |
 
----
-
-## Przyciski (HMI → PLC)
-
-| Adres | Funkcja | Typ | Warunki działania |
-|-------|---------|-----|-------------------|
-| M300 | START | bit, zbocze ↑ | READY + bezpieczeństwo + HOME_OK, brak alarmu |
-| M301 | STOP | bit | zawsze |
-| M302 | RESET (kasowanie alarmu) | bit | tylko przy zazbrojonym bezpieczeństwie |
-| M310 | HOME (bazowanie) | bit, zbocze ↑ | tylko w READY |
-| M305 | Zapis parametrów serwo | bit, zbocze ↑ | nie podczas ruchu osi |
-| M420 | Zezwolenie liczenia | bit (przełącznik) | produkcyjnie ON |
-| M421 | Zezwolenie zaworu przedmuchu | bit (przełącznik) | produkcyjnie ON |
-| M320 | Tryb serwisowy | bit | **Set przy wejściu BS3**, Reset przy wyjściu |
-| M340 | Transport jog | bit, trzymany | M329 (BS3) lub M330 (BS6) |
-| M341 | Przedmuch ręczny | bit | M329 lub M330 |
-| M342 | Obrót serwis +90° | bit, impuls | BS3, M329, R14 |
-| M343 | Obrót przezbraj. +90° „góra/lewo" | bit, impuls | BS6, M330, R11 |
-| M344 | Obrót przezbraj. −90° „dół/prawo" | bit, impuls | BS6, M330, R11 |
-| M311 | Zeruj licznik partii | bit, impuls | poza S2 |
-| M312 | Zeruj statystyki | bit, impuls | — |
-
-## Nastawy (HMI → PLC)
-
-| Adres | Funkcja | Jednostka | Uwagi |
-|-------|---------|-----------|-------|
-| R6 | Ilość sztuk w partii | szt. | edycja na **BS1** (klik w cel) |
-| R7 | Opóźnienie po partii | × 0.01 s | BS2 |
-| R8 | Czas przejazdu słoika przy B3 | × 0.01 s | BS2 |
-| R9 | Timeout bazowania | × 0.1 s | BS2 |
-| R10 | Timeout obrotu | × 0.1 s | BS2 |
-| R11 | Prędkość obrotu **przezbrajania** | Hz (32-bit) | BS6 |
-| R12 | Przyspieszenie przezbrajania | — | BS6 |
-| R13 | Timeout obrotu przezbrajania | × 0.1 s | BS6 |
-| R14 | Prędkość obrotu **serwisowa** | Hz (32-bit) | BS3 |
-| R1403 | Prędkość obrotu **produkcyjna** | Hz (32-bit) | BS2 |
-| R1303, R1312 | Prędkości bazowania | Hz (32-bit) | BS2 |
-| R1211 | Przyspieszenie/hamowanie osi | — | BS2 + M305 |
-| R1209 | Creep bazowania | — | BS2 + M305 |
-| R1221 | Offset bazy (Machine Zero) | 32-bit | BS2 + M305 + HOME |
-
-## Statusy (PLC → HMI)
-
-| Adres | Funkcja |
-|-------|---------|
-| S1–S3, S10–S13 | Stany maszyny |
-| R100 | Licznik bieżącej partii |
-| M470 | HOME_OK |
-| M329 | Serwis aktywny (M320·S1·X0·/X4) |
-| M330 | **Przezbrajanie** (= X4, styk NO kluczyka) |
-| X4 | Kluczyk — pozycja **przezbrajania** |
-| M403 | Pauza B3 |
-| M431 / M536 | Obrót w toku / obrót przezbrajania |
-| M530–M535, M539 | Alarmy / nastawy |
-| D100, D102, R201 | Statystyki, czas cyklu |
-| X0 | Bezpieczeństwo Pilz |
+Dodatkowo na BS3: R1303/R1312 (bazowanie), R12/R13 (przezbrajanie).
 
 ---
 
-## Ekrany panelu
+## Parametry procesowe
 
-Zrzuty: [hmi/Zrzut ekranu 2026-06-11 184233.png](<../hmi/Zrzut ekranu 2026-06-11 184233.png>),
-[hmi/Zrzut ekranu 2026-06-11 184312.png](<../hmi/Zrzut ekranu 2026-06-11 184312.png>).
+| Adres | Funkcja | Zakres | Gdzie |
+|-------|---------|--------|-------|
+| R6 | Ilość w partii | 1–20 szt. | **BS1** (klik w cel) |
+| R7 | **Opóźnienie po zliczeniu** | 0–2 s | BS2 SETUP |
+| R8 | Czas przejazdu słoika przy B3 | 0–5 s | BS2 SETUP |
 
-### BS1 (RUN) — ekran główny
+**R7** — po zliczeniu R6 sztuk transport jedzie jeszcze ten czas, żeby ostatni słoik doszedł do gniazda modułu.
 
-| Element | Powiązanie |
-|---------|------------|
-| Licznik `X / Y` | R100 / R6 (cel edytowalny) |
-| START / STOP / RESET / HOME | M300–M302, M310 |
-| Przycisk SERWIS → BS3 | Disable gdy X4=1 |
-| Lampka PRZEBRAJANIE | M330 (= X4) |
+---
 
-### BS2 (SETUP) — nastawy procesu i serwo
+## Przyciski i statusy
 
-Pełna specyfikacja: [hmi_wdrozenie.md](hmi_wdrozenie.md) §3.
+Pełna tabela adresów M300–M344, S1–S13, alarmy M530–M535: [hmi_wdrozenie.md](hmi_wdrozenie.md) §11.
 
-### BS3 (SERWIS)
+---
 
-Wejście na ekran → **M320 ON**. Osłona zamknięta, klucz PRODUKCJA (X4=OFF).
-R14, M340 jog, M341, M342 (+90°), HOME, zerowania.
+## Ekrany
 
-### BS6 (PRZEBRAJANIE)
-
-**Auto** gdy X4=ON (kluczyk). Instrukcja, M343/M344 (góra-dół / lewo-prawo),
-jog M340, R11–R13.
-
-### BS4 (ALARMY), BS5 (Screensaver)
-
-Specyfikacja: [hmi_wdrozenie.md](hmi_wdrozenie.md) §6–7.
+| Ekran | Dostęp | Zawartość |
+|-------|--------|-----------|
+| **BS1** RUN | operator | produkcja, R6, START/STOP |
+| **BS2** SETUP | hasło | R7, R8, R9/R10, offset R1221, M305 |
+| **BS3** SERWIS | hasło | **wszystkie prędkości**, jog, M342 (R14) |
+| **BS6** PRZEBRAJANIE | auto X4 | instrukcja, M343/M344, jog |
+| **BS4** ALARMY | przy S3 | latch M530–M535 |
 
 ---
 

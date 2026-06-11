@@ -55,8 +55,8 @@ flowchart LR
 ```
 
 1. Transport (Y1) podaje słoiki; czujnik B1 zlicza sztuki (licznik C0).
-2. Po zliczeniu **R6** sztuk transport jedzie jeszcze przez czas **T10 = R7 × 0.01 s**,
-   żeby ostatni słoik doszedł do gniazda modułu.
+2. Po zliczeniu **R6** sztuk transport jedzie jeszcze przez czas **T10 = R7 × 0.01 s**
+   (**opóźnienie po zliczeniu** — dojazd ostatniego słoika do gniazda),
 3. Transport staje, moduł wykonuje obrót (program serwo ROTATE) — partia
    odwraca się pod przedmuch, wcześniej oczyszczone słoiki wracają na tor.
 4. Cykl wraca do liczenia. Przedmuch (Y4) działa ciągle podczas pracy.
@@ -75,9 +75,9 @@ Liczenie nie jest tracone — C0 zachowuje wartość.
 
 | Parametr | Adres | Znaczenie |
 |----------|-------|-----------|
-| Ilość sztuk w partii | R6 | Liczba słoików kompletowana przed obrotem; **ustawiana operatora na BS1** (klik w wartość celu) |
-| Opóźnienie po partii | R7 | × 0.01 s |
-| Czas przejazdu słoika przy B3 | R8 | × 0.01 s — próg zasłonięcia czujnika przez jeden słoik |
+| Ilość sztuk w partii | R6 | 1–20 szt.; ustawiana na BS1 |
+| Opóźnienie po zliczeniu | R7 | 0–2 s (× 0,01 s) |
+| Czas przejazdu słoika przy B3 | R8 | 0–5 s (× 0,01 s) |
 | Licznik bieżący | C0 (kopia w R100) | Zerowany przy każdym wejściu w liczenie |
 
 Średnice obsługiwanych słoików: [srednice_slokow.txt](srednice_slokow.txt).

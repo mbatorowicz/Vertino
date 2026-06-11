@@ -52,7 +52,7 @@ upoważnionego operatora:
 
 | Parametr | Opis |
 |----------|------|
-| Opóźnienie po partii | Czas dojazdu ostatniego słoika do gniazda [× 0,01 s] |
+| Opóźnienie po zliczeniu | Czas dojazdu ostatniego słoika do gniazda po zliczeniu partii [× 0,01 s] |
 | Czas przejazdu słoika przy B3 | Czas, w którym pojedynczy słoik zasłania czujnik B3 przy normalnym przepływie — jeśli B3 jest zasłonięty dłużej, maszyna wstrzymuje transport (linia odbiorcza nie nadąża) [× 0,01 s] |
 | Prędkości / timeouty | Parametry serwisowe — patrz [instrukcja_serwisowa.md](instrukcja_serwisowa.md) |
 
