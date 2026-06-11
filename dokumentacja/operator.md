@@ -11,7 +11,7 @@ przezbrajanie — w dokumencie głównym.
 
 1. Kluczyk Pilz → **PRODUKCJA**, osłona zamknięta, E-stop odryglowany, RESET Pilz.
 2. Panel: **READY**, **HOME_OK**, **Liczenie** i **Powietrze** włączone.
-3. Ustaw ilość w partii. Jeśli brak HOME_OK → **HOME**.
+3. **Kliknij wartość ilości partii** na ekranie głównym (licznik `X / Y`, prawa liczba). Jeśli brak HOME_OK → **HOME**.
 4. **START**.
 
 ## Zatrymanie
@@ -21,7 +21,7 @@ przezbrajanie — w dokumencie głównym.
 
 ## Pauza B3
 
-Zator na wyjściu — maszyna sama czeka (lampka PAUZA B3). Nie jest to błąd.
+Zbyt długie zasłonięcie B3 — maszyna sama czeka (lampka PAUZA B3). Nie jest to błąd.
 
 ## Alarmy
 

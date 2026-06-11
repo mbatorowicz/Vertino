@@ -15,7 +15,7 @@ Pozostałości po starszych wersjach — na końcu dokumentu.
 | X0 | SAFETY_STATUS | Pilz PNOZ X7 (wyjście 13/14) — obwód bezpieczeństwa | N0000, N0002–N0007, N0012, N0017, N0028 |
 | X1 | SENSOR_B1 | Czujnik liczenia słoików (wejście do modułu) | N0023 — zliczanie na zboczu **opadającym** |
 | X2 | SENSOR_B2 | Wejście DOG bazowania serwo | Tylko w konfiguracji tabeli parametrów serwo ([serwo.md](serwo.md)) — nie występuje w drabince |
-| X3 | SENSOR_B3 | Czujnik spiętrzenia na wyjściu | N0010–N0011 — blokada M403 po filtrze T30 |
+| X3 | SENSOR_B3 | Czujnik na wyjściu — czas zasłonięcia przez słoik | N0010–N0011 — pauza M403 gdy zasłonięty > R8 × 0,01 s |
 | X4 | SENSOR_B4 | — | **Nieużywane**; fizyczny czujnik B4 (osłona) jest w obwodzie Pilz, nie na X4 |
 
 ## Wyjścia fizyczne
@@ -65,7 +65,7 @@ ale w drabince są to styki **NO** — działają jako zezwolenia (ON = funkcja 
 |-------|--------|------|
 | M400 | M_EN | Master enable = S2 · X0 |
 | M401 | M_EN_FLOW | Zezwolenie przepływu = M400 · /M403 |
-| M403 | B3_BLOCK | Blokada od spiętrzenia B3 (po filtrze T30) |
+| M403 | B3_BLOCK | Pauza — B3 zasłonięty dłużej niż R8 (T30) |
 | M410 | — | Zezwolenie transportu = (S11+S12) · M401 → Y1 |
 | M431 | — | Obrót aktywny (ACT FUN140/R1400) |
 | M432 | — | Obrót zakończony (DN) |
@@ -82,16 +82,16 @@ ale w drabince są to styki **NO** — działają jako zezwolenia (ON = funkcja 
 | Adres | Baza | Nastawa | Opis |
 |-------|------|---------|------|
 | T10 | 0.01 s | **R7** | Opóźnienie po partii (S12) |
-| T30 | 0.01 s | **R8** | Filtr czujnika B3 |
+| T30 | 0.01 s | **R8** | Próg czasu zasłonięcia czujnika B3 przez słoik |
 | C0 | 16-bit, retentywny | **R6** (porównanie) | Licznik sztuk w partii; zerowany przy wejściu w S11 i przy alarmie |
 
 ## Rejestry R
 
 | Adres | Opis | Uwagi |
 |-------|------|-------|
-| R6 | Ilość sztuk w partii (cel C0) | Nastawa z HMI; musi być > 0 |
-| R7 | Opóźnienie po partii [× 0.01 s] | Nastawa z HMI |
-| R8 | Filtr B3 [× 0.01 s] | Nastawa z HMI |
+| R6 | Ilość sztuk w partii (cel C0) | Nastawa z **BS1** (klik operatora); musi być > 0 |
+| R7 | Opóźnienie po partii [× 0.01 s] | Nastawa z HMI (SETUP) |
+| R8 | Czas przejazdu słoika przy B3 [× 0.01 s] | Próg T30; dłuższe zasłonięcie X3 → M403 |
 | R100 | Kopia C0 dla HMI | Aktualizowana w S11 |
 | R1200–R1223 | Tabela parametrów serwo (Table1) | [serwo.md](serwo.md) |
 | R1300–R1319 | Program serwo HOME (Table2) | DRVZ + ABS 0 |

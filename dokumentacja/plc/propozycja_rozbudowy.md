@@ -538,7 +538,7 @@ Poniżej skrót zakresu zmian.
 |------|-------|--------------------|
 | Ilość w partii | R6 | 1–100 |
 | Opóźnienie po partii [×0.01 s] | R7 | 0–30000 |
-| Filtr B3 [×0.01 s] | R8 | 1–30000 |
+| Czas przejazdu słoika przy B3 [×0.01 s] | R8 | 1–30000 |
 | Timeout bazowania [×0.1 s] | R9 | 50–6000 |
 | Timeout obrotu [×0.1 s] | R10 | 20–6000 |
 | Prędkość obrotu | R1403 (32-bit) | 500–20000 |

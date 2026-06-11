@@ -59,7 +59,7 @@ przy 10000 imp/obr silnika).
 |------------|---------|---------|-------------------|
 | B1 | X1 | Liczenie słoików | — |
 | B2 | X2 | Baza modułu (DOG serwo) | — |
-| B3 | X3 | Spiętrzenie wyjścia | — |
+| B3 | X3 | Wyjście — czas zasłonięcia słoikiem | — |
 | B4 | Pilz | Osłona modułu | Schneider XCSZC7902 |
 | Bezpieczeństwo | X0 | Status obwodu Pilz | Wyjście 13/14 PNOZ X7 |
 
@@ -71,7 +71,7 @@ przy 10000 imp/obr silnika).
 |----------|--------|
 | Ilość słoików w partii | 1–100 (typ. 4–12) |
 | Opóźnienie po partii | 0–300 s (R7 × 0,01 s) |
-| Filtr pauzy B3 | 0,01–300 s (R8 × 0,01 s) |
+| Czas przejazdu słoika przy B3 | 0,01–300 s (R8 × 0,01 s) |
 | Prędkość obrotu | 500–20000 (jednostki serwo) |
 | Prędkość przezbrajania | 50–2000 |
 

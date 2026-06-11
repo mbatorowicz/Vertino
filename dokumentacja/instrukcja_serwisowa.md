@@ -51,13 +51,16 @@ Dokumentacja techniczna programu: [plc/program.md](plc/program.md),
 
 ## 4. Parametry — odniesienie
 
-### 4.1 Proces (operator / SETUP)
+### 4.1 Proces
 
-| Parametr | Adres PLC | Domyślnie | Zakres |
-|----------|-----------|-----------|--------|
-| Ilość w partii | R6 | 12 | 1–100 |
-| Opóźnienie po partii [×0,01 s] | R7 | 12 | 0–30000 |
-| Filtr B3 [×0,01 s] | R8 | 12 | 1–30000 |
+| Parametr | Adres PLC | Domyślnie | Zakres | Gdzie ustawia |
+|----------|-----------|-----------|--------|---------------|
+| Ilość w partii | R6 | 12 | 1–100 | **BS1** — operator (klik w cel licznika) |
+| Opóźnienie po partii [×0,01 s] | R7 | 12 | 0–30000 | BS2 (SETUP) |
+| Czas przejazdu słoika przy B3 [×0,01 s] | R8 | 12 | 1–30000 | BS2 (SETUP) |
+
+**R8:** czas, w którym pojedynczy słoik zasłania czujnik B3 przy normalnym przepływie.
+Zasłonięcie dłuższe niż R8 × 0,01 s uruchamia pauzę M403 (linia odbiorcza nie nadąża).
 
 ### 4.2 Serwo modułu (SETUP / serwis)
 
@@ -107,7 +110,7 @@ Wdrożenie w PLC/HMI: [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md)
 | HOME nie kończy | B2 (DOG) luźny, moduł zablokowany | Regulacja czujnika, mechanika |
 | Obrót nie kończy / timeout | Zablokowanie, błąd SS86D | Alarm na panelu, sprawdź ALM+ sterownika |
 | C0 nie rośnie | M420 OFF, brak impulsów B1, M403 | Włącz Liczenie, regulacja B1 |
-| Ciągła pauza B3 | Zator na wyjściu, B3 za czuły | Zwiększ R8 lub usuń zator linii |
+| Ciągła pauza B3 | R8 za małe lub linia odbiorcza nie nadąża | Zwiększ R8 (czas przejazdu słoika przy B3) lub przyspiesz odbiór |
 | Partia za krótka/długa | Złe R6 lub R7 | Skoryguj opóźnienie po partii |
 | Y4 bez przedmuchu | M421 OFF, M403, brak ciśnienia | Powietrze, zawór, PLC |
 | Y1 bez transportu | M403, awaria SH-D08R | Diagnostyka napędu |

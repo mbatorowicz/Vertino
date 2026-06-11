@@ -71,7 +71,7 @@ BS1 ──[ALARM] lub auto S3 ──► BS4 ──[RESET/Wstecz]──► BS1
 | Lampka ALARM | SL | `@HB1:S3` | ON=czerwony, opcjonalnie miganie |
 | Lampka HOME_OK | SL | `@HB1:M470` | ON=zielony |
 | Licznik bieżący | ND Display | `@HB1:R100` | tylko odczyt, 0 miejsc |
-| Licznik cel partii | ND Input | `@HB1:R6` | edycja, min=1 max=100, klawiatura popup |
+| Licznik cel partii | ND Input | `@HB1:R6` | **główna edycja operatora** — klik → popup; min=1 max=100 |
 | Separator „/" | Text | — | między R100 a R6 |
 | Liczenie — lampka | SL | `@HB1:M420` | |
 | Liczenie — przełącznik | BB Toggle | `@HB1:M420` | domyślnie ON przy starcie produkcji |
@@ -115,14 +115,14 @@ Istniejące pola — **popraw etykiety** (zgodnie z PLC):
 | Etykieta na ekranie | Adres (już jest) | Min | Max | Domyślnie |
 |---------------------|------------------|-----|-----|-----------|
 | Opóźnienie po partii [×0,01 s] | `@HB1:R7` | 0 | 30000 | 12 |
-| Filtr czujnika B3 [×0,01 s] | `@HB1:R8` | 1 | 30000 | 12 |
+| Czas przejazdu słoika przy B3 [×0,01 s] | `@HB1:R8` | 1 | 30000 | 12 |
 | Offset bazy | `@HB1:R1221` | — | — | wg maszyny |
 
 **Nowe pola** (Numeric Input, każde z klawiaturą popup jak istniejące ND):
 
 | Etykieta | Adres | Typ | Min | Max | Domyślnie |
 |----------|-------|-----|-----|-----|-----------|
-| Ilość w partii [szt.] | `@HB1:R6` | 16-bit | 1 | 100 | 12 |
+| Ilość w partii [szt.] | `@HB1:R6` | 16-bit | 1 | 100 | 12 | opcjonalnie duplikat BS1 (serwis) |
 | Timeout bazowania [×0,1 s] | `@HB1:R9` | 16-bit | 50 | 6000 | 300 |
 | Timeout obrotu [×0,1 s] | `@HB1:R10` | 16-bit | 20 | 6000 | 100 |
 | Prędkość obrotu | `@HB1:R1403` | **32-bit INT** | 500 | 20000 | 9000 |

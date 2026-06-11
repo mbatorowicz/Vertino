@@ -33,9 +33,9 @@ propozycji rozbudowy ([plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md)
 
 | Adres | Funkcja | Jednostka | Uwagi |
 |-------|---------|-----------|-------|
-| R6 | Ilość sztuk w partii | szt. | wymagane > 0 |
+| R6 | Ilość sztuk w partii | szt. | edycja na **BS1** (klik w wartość celu); wymagane > 0 |
 | R7 | Opóźnienie po partii | × 0.01 s | nastawa timera T10 |
-| R8 | Filtr czujnika B3 | × 0.01 s | nastawa timera T30 |
+| R8 | Czas przejazdu słoika przy B3 | × 0.01 s | próg zasłonięcia X3 (T30); dłużej → pauza M403 |
 | R9 | Timeout bazowania | × 0.1 s | po wdrożeniu P1 |
 | R10 | Timeout obrotu | × 0.1 s | po wdrożeniu P2 |
 | R11 | Prędkość obrotu przezbrajania | Hz (32-bit) | tryb M323 |
@@ -61,7 +61,7 @@ Rejestry są retentywne — nastawy przeżywają wyłączenie zasilania.
 | M470 | Maszyna zbazowana (HOME_OK) |
 | M462 / M433 / M468 | Przyczyna alarmu: błąd bazowania / obrotu / parametrów |
 | M530–M535 | Latche alarmów (szczegóły na BS4) | po wdrożeniu P3 |
-| M403 | Pauza — spiętrzenie B3 |
+| M403 | Pauza — czujnik B3 (zasłonięty zbyt długo) |
 | M329 / M330 | Serwis / przezbrajanie aktywne |
 | M431 / M536 | Obrót w toku / obrót przezbrajania |
 | M539 | Nastawy poprawne |
@@ -88,7 +88,7 @@ Zrzuty z FvDesigner: [hmi/Zrzut ekranu 2026-06-11 184233.png](<../hmi/Zrzut ekra
 | Element | Powiązanie (wg programu PLC) |
 |---------|------------------------------|
 | Lampki READY / RUN / ALARM / HOME_OK | S1 / S2 / S3 / M470 |
-| Licznik `12 / 12` (bieżący / cel) | R100 / R6 (pole celu edytowalne) |
+| Licznik `12 / 12` (bieżący / cel) | R100 / **R6** — **cel edytowalny** (klik → klawiatura popup) |
 | Lampka + przełącznik „Liczenie" | M420 |
 | Lampka + przełącznik „Powietrze" | M421 |
 | START / STOP / RESET | M300 / M301 / M302 |
@@ -101,8 +101,8 @@ Zrzuty z FvDesigner: [hmi/Zrzut ekranu 2026-06-11 184233.png](<../hmi/Zrzut ekra
 
 | Pole | Powiązanie |
 |------|-----------|
-| „Offset czujnika B1 (liczenie)" | R7 — opóźnienie po partii (× 0.01 s) |
-| „Filtr czujnika B3 (zatory)" | R8 (× 0.01 s) |
+| „Opóźnienie po partii [× 0,01 s]" | R7 |
+| „Czas przejazdu słoika przy B3 [× 0,01 s]" | R8 — czas zasłonięcia czujnika przez jeden słoik; dłużej → pauza |
 | „Offset bazy" | **R1221** (32-bit INT) — parametr „Machine Zero Point" w tabeli parametrów serwo (Table1) |
 
 Wprowadzanie wartości przez wyskakującą klawiaturę numeryczną (osobny ekran popup).

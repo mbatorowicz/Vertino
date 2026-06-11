@@ -42,7 +42,7 @@ Techniczna (PLC/HMI): [dokumentacja/plc/program.md](dokumentacja/plc/program.md)
 | X0 | Pilz — obwód bezpieczeństwa |
 | X1 | B1 — liczenie słoików (zbocze opadające) |
 | X2 | B2 — baza serwo (DOG) |
-| X3 | B3 — spiętrzenie na wyjściu (pauza) |
+| X3 | B3 — wyjście; czas zasłonięcia > R8 → pauza |
 | Y1 | Napęd transportu |
 | Y2/Y3 | Serwo modułu — PLS/DIR (PSO1) |
 | Y4 | Zawór przedmuchu |

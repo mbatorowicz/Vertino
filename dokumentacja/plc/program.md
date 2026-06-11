@@ -85,14 +85,15 @@ ponowne bazowanie po alarmie nie jest wymuszane przez program.
 Przedmuch działa ciągle podczas pracy, o ile: brak blokady B3 (M403)
 i włączone zezwolenie M421 z HMI.
 
-### N0010 — Filtr czujnika B3
+### N0010 — Timer czujnika B3
 `M400 · X3 → T30 (baza 0.01 s, nastawa R8)`
 
 ### N0011 — Blokada B3
 `M400 · X3 · T30 → M403 (B3_BLOCK)`
-Gdy czujnik B3 (X3) jest zasłonięty dłużej niż R8 × 0.01 s — spiętrzenie słoików
-na wyjściu — aktywuje się blokada M403: zatrzymuje transport (przez M401→M410)
-i zamyka zawór przedmuchu Y4. Po odsłonięciu B3 blokada zwalnia się samoczynnie.
+Gdy czujnik B3 (X3) jest zasłonięty dłużej niż R8 × 0.01 s — dłużej niż normalny
+przejazd jednego słoika — aktywuje się blokada M403: zatrzymuje transport
+(przez M401→M410) i zamyka zawór przedmuchu Y4. Po odsłonięciu B3 blokada zwalnia
+się samoczynnie.
 
 ---
 

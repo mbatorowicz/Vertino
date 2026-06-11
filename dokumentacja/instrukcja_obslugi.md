@@ -7,8 +7,7 @@
 
 ## 1. Przeznaczenie
 
-Maszyna służy do **oczyszczania wewnętrznej powierzchni słoików** z brunatnego
-szkła przedmuchem sprężonego powietrza. Słoiki wjeżdżają w rzędzie, są zliczane,
+Maszyna do **oczyszczania opakowań szklanych** przedmuchem sprężonego powietrza. Słoiki wjeżdżają w rzędzie, są zliczane,
 partiami odwracane w module obrotowym i przedmuchiwane. Stacja pracuje w linii
 produkcyjnej przed napełnieniem.
 
@@ -36,10 +35,10 @@ Szczegółowy opis budowy: [maszyna.md](maszyna.md).
 | **RUN** | Praca automatyczna w toku |
 | **ALARM** | Błąd — wymagany RESET po usunięciu przyczyny |
 | **HOME_OK** | Moduł obrotowy zbazowany |
-| Licznik **X / Y** | X = sztuki w bieżącej partii, Y = ilość w partii (cel) |
+| Licznik **X / Y** | X = sztuki w bieżącej partii, **Y = ilość w partii (cel)** — operator ustawia Y **klikając w wartość** na ekranie głównym (wyskakuje klawiatura numeryczna) |
 | **Liczenie** | Zezwolenie zliczania słoików (w produkcji: WŁ.) |
 | **Powietrze** | Zezwolenie przedmuchu (w produkcji: WŁ.) |
-| **PAUZA B3** | Żółta lampka — zator na wyjściu, maszyna czeka |
+| **PAUZA B3** | Żółta lampka — słoik zbyt długo przy czujniku wyjścia, maszyna czeka |
 | **START** | Rozpoczęcie pracy |
 | **STOP** | Zatrzymanie pracy |
 | **RESET** | Kasowanie alarmu |
@@ -53,10 +52,11 @@ upoważnionego operatora:
 
 | Parametr | Opis |
 |----------|------|
-| Ilość w partii | Ile słoików zliczyć przed obrotem modułu (typowo 4–12) |
 | Opóźnienie po partii | Czas dojazdu ostatniego słoika do gniazda [× 0,01 s] |
-| Filtr czujnika B3 | Czas zatoru na wyjściu przed pauzą [× 0,01 s] |
+| Czas przejazdu słoika przy B3 | Czas, w którym pojedynczy słoik zasłania czujnik B3 przy normalnym przepływie — jeśli B3 jest zasłonięty dłużej, maszyna wstrzymuje transport (linia odbiorcza nie nadąża) [× 0,01 s] |
 | Prędkości / timeouty | Parametry serwisowe — patrz [instrukcja_serwisowa.md](instrukcja_serwisowa.md) |
+
+> **Ilość w partii (R6)** operator ustawia na **ekranie głównym** — klik w prawą liczbę licznika `X / Y`, nie w SETUP.
 
 ### 3.3 Ekran alarmów (ALARMY)
 
@@ -82,7 +82,7 @@ ruchy ręczne — patrz rozdział 8 i [instrukcja_serwisowa.md](instrukcja_serwi
    bezpieczeństwa tego wymaga.
 7. Na panelu: lampka **READY**, **HOME_OK** świeci.
 8. **Liczenie** i **Powietrze** — włączone.
-9. Ustaw **ilość w partii** zgodnie z formatem słoika (patrz [srednice_slokow.txt](srednice_slokow.txt)).
+9. Na ekranie głównym **kliknij wartość ilości partii** (licznik `X / Y`, prawa liczba) i ustaw liczbę słoików przed obrotem modułu (typowo 4–12; formaty: [srednice_slokow.txt](srednice_slokow.txt)).
 
 ---
 
@@ -115,13 +115,18 @@ skorygowania — skonsultuj z serwisem.
 
 ---
 
-## 7. Pauza przy zatorze (czujnik B3)
+## 7. Pauza przy czujniku B3 (wyjście)
 
-Gdy odbiór słoików nie nadąża, maszyna **sama zatrzymuje** transport i przedmuch.
+Gdy słoik **zbyt długo** zasłania czujnik B3 na wyjściu (dłużej niż nastawa R8),
+maszyna **sama zatrzymuje** transport i przedmuch — zwykle dlatego, że linia
+odbiorcza nie odbiera słoików w tempie podawania (albo jest rzeczywisty zator).
 Lampka **PAUZA B3** świeci. **To nie jest błąd** — po zwolnieniu toru praca
 wznawia się bez naciśnięcia START. Licznik partii jest zachowany.
 
-Jeśli pauza występuje często — skontaktuj się z serwisem (regulacja filtra B3
+Nastawa R8 to **czas przejazdu jednego słoika obok czujnika B3** przy normalnym
+przepływie [× 0,01 s]. Ustawia ją serwis na ekranie SETUP.
+
+Jeśli pauza występuje często — skontaktuj się z serwisem (regulacja R8
 lub prędkości linii odbiorczej).
 
 ---

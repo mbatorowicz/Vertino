@@ -1,6 +1,6 @@
 # Stacja kontroli opakowań — opis maszyny
 
-**Zastosowanie:** oczyszczanie słoików/butelek z brunatnego szkła przedmuchem
+**Zastosowanie:** maszyna do oczyszczania opakowań szklanych przedmuchem
 pneumatycznym przed napełnieniem (linia farmaceutyczna).
 **Sterownik:** FATEK HB1-14MBJ25 | **Panel:** FATEK P2043NA/P2043EA (4.3")
 **Bezpieczeństwo:** przekaźnik Pilz PNOZ X7 24VAC/DC (774059, wg schematu)
@@ -32,7 +32,7 @@ Film z linii: [media/VID_20251104_132106 (1).mp4](<../media/VID_20251104_132106 
 4. **Czujniki:**
    - **B1 (X1)** — liczenie słoików wjeżdżających do modułu,
    - **B2 (X2)** — czujnik bazowania modułu (DOG serwo),
-   - **B3 (X3)** — czujnik spiętrzenia na wyjściu (zasłonięty dłużej niż filtr → pauza),
+   - **B3 (X3)** — czujnik na wyjściu: mierzy czas zasłonięcia przez przechodzący słoik; zasłonięty dłużej niż R8 → pauza (linia nie nadąża),
    - **B4** — czujnik magnetyczny osłony XCSZC7902, spięty w obwód bezpieczeństwa
      Pilz (nie w wejście PLC; X4 pozostaje niewykorzystane).
 5. **Obwód bezpieczeństwa** — E-stop (S1) + czujnik osłony (B4) + **przełącznik
@@ -63,9 +63,11 @@ flowchart LR
    odwraca się pod przedmuch, wcześniej oczyszczone słoiki wracają na tor.
 4. Cykl wraca do liczenia. Przedmuch (Y4) działa ciągle podczas pracy.
 
-**Pauza od spiętrzenia:** jeśli czujnik B3 na wyjściu jest zasłonięty dłużej niż
-**R8 × 0.01 s** (odbiór nie nadąża), transport i przedmuch stają do czasu
-zwolnienia toru. Liczenie nie jest tracone — C0 zachowuje wartość.
+**Pauza B3:** czujnik B3 na wyjściu jest zasłonięty przez każdy przechodzący słoik.
+Nastawa **R8 × 0,01 s** to czas, jaki pojedynczy słoik może zajmować czujnik
+przy normalnym przepływie. Gdy B3 pozostaje zasłonięty **dłużej** — linia odbiorcza
+nie nadąża (lub jest zator) — transport i przedmuch stają do czasu zwolnienia toru.
+Liczenie nie jest tracone — C0 zachowuje wartość.
 
 **Stany maszyny i pełna logika:** [plc/program.md](plc/program.md).
 
@@ -75,9 +77,9 @@ zwolnienia toru. Liczenie nie jest tracone — C0 zachowuje wartość.
 
 | Parametr | Adres | Znaczenie |
 |----------|-------|-----------|
-| Ilość sztuk w partii | R6 | Liczba słoików kompletowana przed obrotem |
+| Ilość sztuk w partii | R6 | Liczba słoików kompletowana przed obrotem; **ustawiana operatora na BS1** (klik w wartość celu) |
 | Opóźnienie po partii | R7 | × 0.01 s |
-| Filtr czujnika B3 | R8 | × 0.01 s |
+| Czas przejazdu słoika przy B3 | R8 | × 0.01 s — próg zasłonięcia czujnika przez jeden słoik |
 | Licznik bieżący | C0 (kopia w R100) | Zerowany przy każdym wejściu w liczenie |
 
 Średnice obsługiwanych słoików: [srednice_slokow.txt](srednice_slokow.txt).
