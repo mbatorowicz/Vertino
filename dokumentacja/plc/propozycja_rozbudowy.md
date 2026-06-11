@@ -38,7 +38,7 @@ Zakres:
 | R9 | Timeout bazowania [× 0.1 s] (zalecane 300 = 30 s) | HMI → PLC |
 | R10 | Timeout obrotu [× 0.1 s] (zalecane 100 = 10 s) | HMI → PLC |
 | X4 | KEY_PRZEBRAJ — styk **NO** kluczyka (ON = tryb **przezbrajania**) | hardware → PLC |
-| R11 | Prędkość obrotu **przezbrajania** (32-bit) — BS6 | HMI → PLC |
+| R11 | Prędkość obrotu **przezbrajania** (32-bit) — edycja BS3, odczyt BS6 | HMI → PLC |
 | R12 | Przyspieszenie obrotu przezbrajania | HMI → PLC |
 | R13 | Timeout obrotu przezbrajania [× 0.1 s] | HMI → PLC |
 | R14 | Prędkość obrotu **serwisowa** (32-bit) — BS3 | HMI → PLC |
@@ -307,7 +307,7 @@ przy X4↑ lub stała widoczność z wymuszeniem nawigacji).
    - **DÓŁ / PRAWO** — M344 (−90°; ten sam program serwo z **+25000** imp zamiast −25000).
 3. **Jog napędów transportu** — M340 (przytrzymany, jak w serwisie).
 4. **Przedmuch ręczny** — M341 (opcjonalnie).
-5. Nastawy **R11, R12, R13** (edycja na BS6 lub BS2 serwis).
+5. **R11** — odczyt na BS6 (edycja tylko **BS3**); R12, R13 — edycja **BS3**.
 6. Lampki: X0, M330, M431, M536.
 7. **Wstecz** — tylko gdy X4=OFF (klucz wyłączony).
 
@@ -317,9 +317,9 @@ przy X4↑ lub stała widoczność z wymuszeniem nawigacji).
 |---------|-----------|--------|-------|
 | R1403 | 9000 | 500–20000 | BS3 — produkcja |
 | R14 | 4000 | 500–15000 | BS3 — serwis |
-| R11 | 500 | 50–2000 | BS3 — przezbrajanie (używane na BS6) |
-| R12 | 60000 | 10000–60000 | BS6 |
-| R13 | 600 | 100–3600 | BS6 [× 0.1 s] |
+| R11 | 500 | 50–2000 | BS3 — edycja; BS6 — odczyt (regulacja tuneli) |
+| R12 | 60000 | 10000–60000 | BS3 — edycja |
+| R13 | 600 | 100–3600 | BS3 — edycja [× 0.1 s] |
 
 Przy M330 program **klamruje** R11 (min 50, max 2000).
 

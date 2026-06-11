@@ -79,12 +79,12 @@ przy 10000 imp/obr silnika).
 |------|---------|--------|-----------|
 | Produkcja | R1403 | 500–20000 Hz | obrót w automacie — **ustawienie BS3** |
 | Serwis | R14 | 500–15000 Hz | obrót BS3 (osłona zamknięta) — **ustawienie BS3** |
-| Przezbrajanie | R11 | 50–2000 Hz | obrót BS6 — **ustawienie BS3** |
+| Przezbrajanie | R11 | 50–2000 Hz | **ustawienie BS3**; na BS6 tylko odczyt (regulacja tuneli) |
 | Bazowanie DRVZ / dojazd | R1303, R1312 | 500–10000 Hz | program HOME — **ustawienie BS3** |
 
 **R11 (50–2000 Hz)** — prędkość obrotu modułu w trybie przezbrajania (BS6).
-Ustawiana na **BS3** przez serwis. Służy do **regulacji czterech tuneli** (blachy +
-zaciski mimośrodowe): po dopasowaniu jednego tunelu operator obraca moduł o 90°
+Ustawiana na **BS3** przez serwis; na **BS6** tylko odczyt podczas **regulacji tuneli**
+(blachy + zaciski mimośrodowe): po dopasowaniu jednego tunelu operator obraca moduł o 90°
 i reguluje kolejny tunel pod rozmiar opakowań ([srednice_slokow.txt](srednice_slokow.txt)).
 
 ---

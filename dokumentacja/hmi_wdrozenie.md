@@ -152,7 +152,7 @@ Istniejące pola — **popraw etykiety** (zgodnie z PLC):
 Utwórz: `Screen → New` → nazwa **BS3**, tytuł **SERWIS**.
 
 > **Wszystkie prędkości obrotu** (R1403, R14, R11, R1303, R1312, R12, R13) ustawia
-> serwis **tylko na BS3** — nie na BS2 ani BS6 (BS6: odczyt R11).
+> serwis **tylko na BS3** — nie na BS2 ani BS6 (BS6: **odczyt R11** podczas regulacji tuneli).
 
 **Właściwości ekranu BS3:**
 

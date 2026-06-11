@@ -70,7 +70,7 @@ Wszystkie prędkości ustawia **serwis** na ekranie BS3 (hasło), nie operator.
 |----------|-------|-----------|--------|
 | Prędkość obrotu produkcyjna | R1403 | 9000 | 500–20000 Hz |
 | Prędkość obrotu serwisowa | R14 | 4000 | 500–15000 Hz |
-| Prędkość obrotu przezbrajania | R11 | 500 | 50–2000 Hz |
+| Prędkość obrotu przezbrajania | R11 | 500 | 50–2000 Hz — **edycja BS3**, odczyt BS6 |
 | Przyspieszenie przezbrajania | R12 | 60000 | 10000–60000 |
 | Timeout obrotu przezbraj. [×0,1 s] | R13 | 600 | 100–3600 |
 | Prędkość bazowania (DRVZ) | R1303 | 5000 | 500–10000 Hz |

@@ -12,7 +12,7 @@
 |------|---------|--------|--------|
 | **Produkcja** | R1403 | 9000 Hz | automat |
 | **Serwis** | R14 | 4000 Hz | BS3, osłona zamknięta |
-| **Przezbrajanie** | R11 | 500 Hz | BS6, klucz X4 |
+| **Przezbrajanie** | R11 | 500 Hz | BS3 — ustawienie; **BS6 — tylko odczyt** (regulacja tuneli) |
 
 Dodatkowo na BS3: R1303/R1312 (bazowanie), R12/R13 (przezbrajanie).
 
