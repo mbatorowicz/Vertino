@@ -1,95 +1,87 @@
-# Maszyna — Vertino
+# Stacja kontroli opakowań — opis maszyny
 
-**Vertino — Stacja oczyszczania opakowań**  
-**Numer seryjny:** VERTINO-MO-2025-___________ *(poprzednia seria dokumentacji: SKO-MO)*
-**Sterownik:** FATEK HB1-14MBJ25 | **HMI:** P5043NB | **Bezpieczeństwo:** Pilz PNOZ X7
+**Zastosowanie:** oczyszczanie słoików/butelek z brunatnego szkła przedmuchem
+pneumatycznym przed napełnieniem (linia farmaceutyczna).
+**Sterownik:** FATEK HB1-14MBJ25 | **Panel:** FATEK P2043NA/P2043EA (4.3")
+**Bezpieczeństwo:** przekaźnik Pilz PNOZ X7 24VAC/DC (774059, wg schematu)
 
----
+| | |
+|---|---|
+| ![Stacja — moduł obrotowy](<../media/stacja_modul_obrotowy.jpg>) | ![Stacja — panel i E-stop](<../media/stacja_widok_panel.jpg>) |
 
-## Przeznaczenie
-
-Stacja oczyszcza opakowania (słoiki) przed napełnianiem: obrót do pozycji **180°** i przedmuch sprężonym powietrzem (**Y5**). Usuwa zanieczyszczenia stałe po transporcie i magazynowaniu.
-
-**Kontrola przepływu:** czujnik **B4** na wyjściu — przy zatorze na linii odbiorczej maszyna zatrzymuje przepychanie (nie obrót), licznik partii **C1** pozostaje w pamięci.
-
----
-
-## Konstrukcja
-
-| Element | Opis |
-|---------|------|
-| Moduł obrotowy M1 | 4 pozycje co 90°, przekładnia 1:50 (SS86D) |
-| Transportery M2+M3 | Przepychanie partii (Beak SH-D08R) |
-| Równoległe partie | Do 4 partii w różnych fazach cyklu 360° |
-
-### Pozycje modułu
-
-| Kąt | Funkcja |
-|-----|---------|
-| **0°** | Wejście / wyjście partii (góra) |
-| **90°** | Pozycja transportowa (bok) |
-| **180°** | Oczyszczanie — przedmuch, dnem do góry |
-| **270°** | Pozycja transportowa (bok) |
-
-```
-        [0° wejście/wyjście]
-              │
-   [270°] ───┼─── [90°]
-              │
-        [180° przedmuch]
-```
+Rendery CAD: [media/unnamed.png](<../media/unnamed.png>) (izometria),
+[media/unnamed (1).png](<../media/unnamed (1).png>) (widok z góry),
+[media/unnamed (2).png](<../media/unnamed (2).png>) (widok z boku).
+Film z linii: [media/VID_20251104_132106 (1).mp4](<../media/VID_20251104_132106 (1).mp4>).
 
 ---
 
-## Proces technologiczny
+## Budowa
 
-### Cykl jednej partii (360°)
+1. **Tor transportowy** — słoiki wjeżdżają w rzędzie z linii (przed stacją stół
+   obrotowy SOB-11), prowadzone między napędzanymi elementami transportu.
+   Napędy załączane wyjściem **Y1** (silniki krokowe ze sterownikami SH-D08R —
+   karta katalogowa: [referencje/napedy/SH-D08R.pdf](../referencje/napedy/SH-D08R.pdf)).
+2. **Moduł obrotowy (odwracający)** — dwie tarcze z gniazdami na słoiki, napęd
+   step-servo iCAN 57BLF-1830NBB (188 W, z enkoderem) ze sterownikiem SS86D,
+   przekładnia 10:1, sterowany impulsowo z PLC (PSO1: Y2/Y3).
+   Każda partia = **obrót o 90°**; po dwóch krokach słoiki są odwrócone dnem
+   do góry w strefie przedmuchu, po czterech — wracają na tor wyjściowy.
+3. **Przedmuch** — zawór pneumatyczny **Y4** podaje powietrze w strefie modułu;
+   odwrócone słoiki są przedmuchiwane (zanieczyszczenia wypadają w dół).
+4. **Czujniki:**
+   - **B1 (X1)** — liczenie słoików wjeżdżających do modułu,
+   - **B2 (X2)** — czujnik bazowania modułu (DOG serwo),
+   - **B3 (X3)** — czujnik spiętrzenia na wyjściu (zasłonięty dłużej niż filtr → pauza),
+   - **B4** — czujnik magnetyczny osłony XCSZC7902, spięty w obwód bezpieczeństwa
+     Pilz (nie w wejście PLC; X4 pozostaje niewykorzystane).
+5. **Obwód bezpieczeństwa** — E-stop (S1) + czujnik osłony (B4) + **przełącznik
+   serwisowy z kluczykiem** → Pilz PNOZ X7, przycisk RESET obwodu (S2).
+   - **Produkcja:** B4 w torze — osłona musi być zamknięta.
+   - **Serwis:** kluczyk pomija B4 — praca przy otwartej osłonie (przezbrajanie).
+   E-stop aktywny w obu pozycjach. Status obwodu na wejście PLC **X0**.
 
-1. Sprawdzenie **B4** (linia odbiorcza wolna).
-2. **Transport** — przepychanie; **B1** zlicza słoiki do **R1400**.
-3. **Stabilizacja** — czas **R1410** (T6).
-4. **Kontrola stref** — B1/B2 (M233).
-5. **Obrót 90°** — FUN140, rejestr **R1200**.
-6. Powtórzenie — kolejna partia wypycha już oczyszczone słoiki (gdy B4 pozwala).
-
-### Sekwencja PLC (flagi)
-
-```
-M70 → M21 → M22 → M23 → M233 → M24 → M25 → M21 …
-```
-
-PLC w sterowniku: [plc/STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md) · plan programu: [plc/03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md).
-
-### Parametry procesu (HMI)
-
-| Rejestr | Zakres | Domyślnie | Znaczenie |
-|---------|--------|-----------|-----------|
-| R1400 | 1–10 | 3 | Słoiki w partii |
-| R1401 | 50–500 Hz | 200 | Prędkość transportu |
-| R1402 | 100–1000 Hz | 400 | Prędkość obrotu |
-| R1403 | 12400–12600 | 12500 | Impulsy na 90° |
-| R1410 | 50–1000 ms | 200 | Stabilizacja |
-| R1411 | 50–500 ms | 100 | Pauza po obrocie |
-
-Typowy czas cyklu: **12–18 s** (R1500).
-
-### Zator B4 {#zator-b4}
-
-| Stan B4 | Zachowanie |
-|---------|------------|
-| OFF | Przepychanie i zliczanie normalne |
-| ON | Stop przepychania; **C1 bez resetu**; obrót modułu może trwać |
+Schemat elektryczny: [schemat_elektryczny/SKO.pdf](../schemat_elektryczny/SKO.pdf).
 
 ---
 
-## Dokumenty powiązane
+## Cykl pracy (automat)
 
-| Dokument | Odbiorca |
-|----------|----------|
-| [operator.md](operator.md) | Operator |
-| [serwis.md](serwis.md) | Serwis |
-| [techniczna.md](techniczna.md) | Producent / integrator |
-| [plc/](plc/) | Program sterownika |
-| [receptury.md](receptury.md) | Profile opakowań |
+```mermaid
+flowchart LR
+    wjazd["Słoiki wjeżdżają<br>(transport Y1)"] --> liczenie["Liczenie na B1<br>(C0 do wartości R6)"]
+    liczenie --> opoznienie["Opóźnienie T10<br>(dojazd do gniazd)"]
+    opoznienie --> obrot["Obrót modułu<br>(serwo, transport stoi)"]
+    obrot --> wjazd
+    przedmuch["Przedmuch Y4<br>(ciągły podczas pracy)"] -.czyści odwrócone słoiki.-> obrot
+```
+
+1. Transport (Y1) podaje słoiki; czujnik B1 zlicza sztuki (licznik C0).
+2. Po zliczeniu **R6** sztuk transport jedzie jeszcze przez czas **T10 = R7 × 0.01 s**,
+   żeby ostatni słoik doszedł do gniazda modułu.
+3. Transport staje, moduł wykonuje obrót (program serwo ROTATE) — partia
+   odwraca się pod przedmuch, wcześniej oczyszczone słoiki wracają na tor.
+4. Cykl wraca do liczenia. Przedmuch (Y4) działa ciągle podczas pracy.
+
+**Pauza od spiętrzenia:** jeśli czujnik B3 na wyjściu jest zasłonięty dłużej niż
+**R8 × 0.01 s** (odbiór nie nadąża), transport i przedmuch stają do czasu
+zwolnienia toru. Liczenie nie jest tracone — C0 zachowuje wartość.
+
+**Stany maszyny i pełna logika:** [plc/program.md](plc/program.md).
+
+---
+
+## Dane procesowe
+
+| Parametr | Adres | Znaczenie |
+|----------|-------|-----------|
+| Ilość sztuk w partii | R6 | Liczba słoików kompletowana przed obrotem |
+| Opóźnienie po partii | R7 | × 0.01 s |
+| Filtr czujnika B3 | R8 | × 0.01 s |
+| Licznik bieżący | C0 (kopia w R100) | Zerowany przy każdym wejściu w liczenie |
+
+Średnice obsługiwanych słoików: [srednice_slokow.txt](srednice_slokow.txt).
+
+---
 
 **© CNC Solutions — Michał Batorowicz**

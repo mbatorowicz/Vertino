@@ -1,0 +1,113 @@
+REF	COMMENT	DESCRIPTION
+X0	SAFETY_STATUS	
+X1	SENSOR_B1	
+X2	SENSOR_B2	
+X3	SENSOR_B3	
+X4	SENSOR_B4	
+Y4	Valve	
+Y5	PNEUMATIC_VALVE 	
+M1	BezpieczeÒstwo a	
+M10	System gotowy	
+M21	Start cyklu	
+M22	Transport aktywn	
+M23	Stabilizacja	
+M24	ObrÛt OK	
+M25	ObrÛt aktywny	
+M70	Praca automatycz	
+M80	Øπdanie HOME	
+M82	HOME OK	
+M100	Tryb rÍczny OK	
+M110	Transport FWD	
+M111	Transport REV	
+M112	ObrÛt CW	
+M113	ObrÛt CCW	
+M114	ObrÛt +90∞	
+M115	ObrÛt -90∞	
+M120	MPARA_APPLY_REQ	
+M200	Reset b≥ÍdÛw	
+M233	IloúÊ OK	
+M240	Przedmuch rÍczny	
+M300	START	
+M301	STOP	
+M302	RESET	
+M305	MPARA_APPLY	
+M310	HOME Bt	
+M321	Lamp RUN	
+M322	Lamp ALARM	
+M400	M_EN	
+M401	M_EN_FLOW	
+M403	B3_BLOCK	
+M404	B3_prev	
+M406	B3_meas_on	
+M407	B3_rise	
+M409	B3_fall	
+M420	wy≥. liczenie	
+M421	Wy≥. zawÛr	
+M468	MPARA_ERR	
+M470	HOME_OK	
+M501	B≥πd pozycji wej	
+M502	B≥πd pozycji wyj	
+M503	B≥πd parametrÛw	
+M504	B≥πd HOME	
+M505	Timeout transpor	
+M506	Timeout obrotu	
+M507	Status transport	
+M520	Detekcja zbocza 	
+M1000	RESET	
+M1001	START AUTO	
+M1002	STOP AUTO	
+M1003	HOME REQUEST	
+M1010	Przyciski sterow	
+M1011	Przyciski sterow	
+M1012	Przyciski sterow	
+M1013	Przyciski sterow	
+M1014	Przyciski sterow	
+M1015	Przyciski sterow	
+M1016	Przyciski sterow	
+M1017	Przyciski sterow	
+M1019	Przyciski sterow	
+M1020	Przyciski sterow	
+M1021	Przyciski sterow	
+M1022	Przyciski sterow	
+M1023	Przyciski sterow	
+M1024	Przyciski sterow	
+M1050	Symulacja B4	
+M1924	First scan	
+M1992	Transport serwo 	
+M1993	Rotation serwo	
+S1	READY	
+S2	RUN	
+S3	ALARM	
+S10	HOMING	
+S11	LICZENIE	
+S12	OP”èNIENIE	
+S13	OBR”T	
+T5	Timeout transpor	
+T6	Timer stabilizac	
+T7	Timeout obrotu	
+T8	Pauza po obrocie	
+T10	Timeout HOME	
+T30	Timer filtra but	
+T50	Pomiar czasu cyk	
+T200	Timer Godzin	
+C0	licznik sztuk	
+C1	Licznik opakowaÒ	
+R524	Transport FWD	
+R1100	Servo Program Ta	
+R1120	Servo Parameters	
+R1200	Servo Parameters	
+R1220	Servo Parameters	
+R1300	Prog HOME	
+R1400	Prog ROTATE	
+R1410	Czas stabilizacj	
+R1411	Pauza po obrocie	
+R1500	WR HOME	
+R1501	Pozycja modu≥u	
+R1507	Status zew. tran	
+R1510	WR ROTATE	
+D100	Licznik partii c	
+D200	B≥Ídy pozycji we	
+D201	B≥Ídy pozycji wy	
+D202	Timeout transpor	
+D203	Timeout obrotu	
+D204	Aktywacje B4	

@@ -1,49 +1,52 @@
-# Vertino — Stacja oczyszczania opakowań
+# Stacja kontroli opakowań (SKO)
 
-Sterownik: **FATEK HB1-14MBJ25** | Panel: **P5043NB** | Bezpieczeństwo: **Pilz PNOZ X7**
+Stacja oczyszczania słoików przedmuchem pneumatycznym — moduł obrotowy odwraca
+partie słoików dnem do góry nad strefą przedmuchu.
+
+**Sterownik:** FATEK HB1-14MBJ25 | **Panel:** FATEK P2043NA/P2043EA | **Bezpieczeństwo:** Pilz PNOZ X7
+
 ## Struktura projektu
 
 ```
-Vertino/                    # folder projektu (nazwa katalogu może być historyczna)
-├── dokumentacja/       ← dokumentacja (jeden zestaw plików)
-├── plc/                  ← jeden program: SKO-Program.pdw / .pdf
+├── dokumentacja/         ← pełna dokumentacja (maszyna, operator, PLC, HMI)
+├── plc/                  ← SKO-Program.pdw (WinProLadder) + wydruk PDF
 │   └── export/           ← komentarze, drabinka, tabele serwo
-├── hmi/                  ← panel P5043NB
-├── schemat_elektryczny/  ← QElectroTech
-├── referencje/           ← Fatek, napędy
-├── mechanika/
-├── media/
-└── narzedzia/            ← generuj_dokumentacje.py
+├── hmi/                  ← projekt panelu (FvDesigner, .fpj)
+├── schemat_elektryczny/  ← QElectroTech (SKO.qet / SKO.pdf)
+├── referencje/           ← podręczniki Fatek (PL), karta napędu SH-D08R
+└── media/                ← rendery CAD, zdjęcia, film z linii
 ```
 
 ## Dokumentacja
 
-**[dokumentacja/README.md](dokumentacja/README.md)** — Vertino: maszyna, operator, serwis, PLC, mapy procesu.
+**Pakiet dla klienta:** [dokumentacja/DOKUMENTACJA_KLIENTA.md](dokumentacja/DOKUMENTACJA_KLIENTA.md)
+
+- Instrukcja obsługi: [dokumentacja/instrukcja_obslugi.md](dokumentacja/instrukcja_obslugi.md)
+- Bezpieczeństwo · serwis · dane techniczne · protokół odbioru — [dokumentacja/README.md](dokumentacja/README.md)
+
+Techniczna (PLC/HMI): [dokumentacja/plc/program.md](dokumentacja/plc/program.md) · [dokumentacja/hmi.md](dokumentacja/hmi.md)
 
 ## Program PLC
 
 | Plik | Opis |
 |------|------|
-| [plc/SKO-Program.pdw](plc/SKO-Program.pdw) | Projekt WinProLadder |
-| [plc/SKO-Program.pdf](plc/SKO-Program.pdf) | Wydruk programu |
-| [plc/export/comments.txt](plc/export/comments.txt) | Komentarze symboli |
+| [plc/SKO-Program.pdw](plc/SKO-Program.pdw) | Projekt WinProLadder (źródło) |
+| [plc/SKO-Program.pdf](plc/SKO-Program.pdf) | Wydruk programu — podstawa dokumentacji |
+| [plc/export/comment.txt](plc/export/comment.txt) | Komentarze symboli |
+| [plc/export/tabele.tab](plc/export/tabele.tab) | Tabele serwo |
 
-Mapowanie I/O: [dokumentacja/plc/mapowanie.md](dokumentacja/plc/mapowanie.md)
+## I/O (skrót)
 
-**PLC:** [stan w sterowniku](dokumentacja/plc/STAN_FAKTYCZNY.md) · [plan 35 sieci](dokumentacja/plc/03_program_vertino_sieci.md) · [mapy](dokumentacja/mapy_procesu.md)
-
-## Wejścia PLC (skrót)
-
-| Wejście | Czujnik |
-|---------|---------|
-| X0 | Pilz — bezpieczeństwo |
-| X1 | B1 — bariera US |
-| X2 | B2 — wyjście |
-| X3 | B3 — HOME 0° |
-| X4 | B4 — zator linii odbiorczej |
+| Adres | Funkcja |
+|-------|---------|
+| X0 | Pilz — obwód bezpieczeństwa |
+| X1 | B1 — liczenie słoików (zbocze opadające) |
+| X2 | B2 — baza serwo (DOG) |
+| X3 | B3 — spiętrzenie na wyjściu (pauza) |
+| Y1 | Napęd transportu |
+| Y2/Y3 | Serwo modułu — PLS/DIR (PSO1) |
+| Y4 | Zawór przedmuchu |
 
 ---
 
 **CNC Solutions — Michał Batorowicz**
-
-Nazewnictwo: [dokumentacja/KONWENCJE_NAZEWNICTWA.md](dokumentacja/KONWENCJE_NAZEWNICTWA.md).

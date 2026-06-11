@@ -1,53 +1,53 @@
-# Dokumentacja — Vertino
-
-**Vertino — Stacja oczyszczania opakowań**  
-**Sterownik:** FATEK HB1-14MBJ25 | **HMI:** P5043NB | **Bezpieczeństwo:** Pilz PNOZ X7
-
-**[KONWENCJE_NAZEWNICTWA.md](KONWENCJE_NAZEWNICTWA.md)** — jak odróżnić stan w sterowniku od planu.  
-**[plc/STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md)** — co jest wgrane w PLC **dziś**.
+# Dokumentacja — Stacja kontroli opakowań
 
 ---
 
-## Dokumenty
+## Dokumentacja dla klienta (dostawa z maszyną)
 
-| Dokument | Opis |
+**Spis i instrukcja pakowania:** [DOKUMENTACJA_KLIENTA.md](DOKUMENTACJA_KLIENTA.md)
+
+| Dokument | Plik |
 |----------|------|
-| [mapy_procesu.md](mapy_procesu.md) | Diagramy (plan PLC + proces + operator) |
-| [maszyna.md](maszyna.md) | Urządzenie, cykl, B4 |
-| [operator.md](operator.md) | Instrukcja operatora |
-| [serwis.md](serwis.md) | Serwis |
-| [techniczna.md](techniczna.md) | Hardware, HMI |
-| [receptury.md](receptury.md) | Profile średnic |
-| [srednice_slokow.txt](srednice_slokow.txt) | Wymiary [mm] |
+| Instrukcja obsługi | [instrukcja_obslugi.md](instrukcja_obslugi.md) |
+| Bezpieczeństwo | [bezpieczenstwo.md](bezpieczenstwo.md) |
+| Opis maszyny | [maszyna.md](maszyna.md) |
+| Instrukcja serwisowa | [instrukcja_serwisowa.md](instrukcja_serwisowa.md) |
+| Dane techniczne | [dane_techniczne.md](dane_techniczne.md) |
+| Protokół odbioru | [odbior_uruchomienie.md](odbior_uruchomienie.md) |
+| Średnice słoików | [srednice_slokow.txt](srednice_slokow.txt) |
 
-### PLC — [plc/](plc/)
-
-| Dokument | Stan |
-|----------|------|
-| **[STAN_FAKTYCZNY.md](plc/STAN_FAKTYCZNY.md)** | **W sterowniku (78 sieci)** |
-| [program.md](plc/program.md) | Skrócony indeks |
-| [mapowanie.md](plc/mapowanie.md) | I/O, rejestry |
-| [lista_sieci.md](plc/lista_sieci.md) | Spis N0000–N0077 |
-| [sieci/](plc/sieci/) | Opis każdej sieci (eksport PDF) |
-| [indeks_krzyzowy.md](plc/indeks_krzyzowy.md) | Adres → sieć |
-| [mnemotechniki.txt](plc/mnemotechniki.txt) | Listing |
-| [audyt.md](plc/audyt.md) | Luki, rekomendacje |
-| [wdrozenie_drabinka_A0_A1.md](plc/wdrozenie_drabinka_A0_A1.md) | Patch w 78 sieciach (opcja) |
-| [01_analiza_programu_produkcyjnego.md](plc/01_analiza_programu_produkcyjnego.md) | Wymagania vs produkcja |
-| **[03_program_vertino_sieci.md](plc/03_program_vertino_sieci.md)** | **Plan — 35 sieci (nie w PLC)** |
+Skrót dla operatora: [operator.md](operator.md).
 
 ---
 
-## Pliki projektu
+## Dokumentacja techniczna (PLC / HMI)
 
-| Ścieżka | Opis |
-|---------|------|
-| [../plc/SKO-Program.pdw](../plc/SKO-Program.pdw) | Program w sterowniku |
-| [../plc/SKO-Program.pdf](../plc/SKO-Program.pdf) | Eksport PDF |
-| [../plc/export/comments.txt](../plc/export/comments.txt) | Komentarze symboli |
+Opis programu w sterowniku (31 sieci, 2026-06):
+[plc/SKO-Program.pdf](../plc/SKO-Program.pdf).
 
-Regeneracja opisów sieci z PDF: `python narzedzia/generuj_dokumentacje.py`
+| Dokument | Zawartość |
+|----------|-----------|
+| [plc/program.md](plc/program.md) | Sieci N0000–N0030, diagram stanów |
+| [plc/mapa_io.md](plc/mapa_io.md) | I/O, rejestry |
+| [plc/serwo.md](plc/serwo.md) | Oś PSO1, HOME, ROTATE |
+| [hmi.md](hmi.md) | Interfejs PLC ↔ HMI |
 
 ---
+
+## Dokumentacja wewnętrzna (wykonawca)
+
+| Dokument | Zawartość |
+|----------|-----------|
+| [plc/propozycja_rozbudowy.md](plc/propozycja_rozbudowy.md) | Specyfikacja rozbudowy PLC |
+| [hmi_wdrozenie.md](hmi_wdrozenie.md) | Wdrożenie panelu w FvDesigner |
+
+---
+
+## Aktualizacja po zmianie programu
+
+1. Wydruk PLC → `plc/SKO-Program.pdf`
+2. Eksport → `plc/export/`
+3. Uzupełnij wersję w [DOKUMENTACJA_KLIENTA.md](DOKUMENTACJA_KLIENTA.md) i protokole odbioru
+4. Zaktualizuj dokumenty, których dotyczy zmiana
 
 **© CNC Solutions — Michał Batorowicz**
